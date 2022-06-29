@@ -370,7 +370,7 @@ public class AddWindow extends javax.swing.JFrame {
             String sql = "insert into peliculas values('" + MovieName.getText() + "', '" + MovieDescription.getText() + "'," + MovieCheck.isSelected() + ");";
             bd.sentencia(sql);
             dispose();
-        }else JOptionPane.showMessageDialog(rootPane, "Es necesario un nombre.");
+        }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.");
     }//GEN-LAST:event_AddMovieActionPerformed
 
     private void AddSeriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSeriesActionPerformed
@@ -379,7 +379,7 @@ public class AddWindow extends javax.swing.JFrame {
             String sql = "insert into series values('" + SeriesName.getText() + "', '" + SeriesDescription.getText() + "');";
             bd.sentencia(sql);
             dispose();
-        }else JOptionPane.showMessageDialog(rootPane, "Es necesario un nombre.");
+        }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.");
     }//GEN-LAST:event_AddSeriesActionPerformed
 
     private void AddChapterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddChapterActionPerformed

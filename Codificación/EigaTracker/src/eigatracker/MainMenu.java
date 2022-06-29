@@ -65,6 +65,16 @@ public class MainMenu extends javax.swing.JFrame {
         setTitle("EigaTracker");
         setLocation(new java.awt.Point(400, 150));
         setMinimumSize(new java.awt.Dimension(1100, 600));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         Tabla.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -300,14 +310,14 @@ public class MainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -346,11 +356,21 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchBarActionPerformed
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-        // TODO add your handling code here:
+        AddWindow addw = new AddWindow();
+        addw.setVisible(true);
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
-        // TODO add your handling code here:
+        if(Tabla.getSelectedRow() != -1){
+            int tipo = 0;
+            if(Tabla.getValueAt(Tabla.getSelectedRow(), 1) == "Serie") tipo = 1;
+            String nombre = String.valueOf(Tabla.getValueAt(Tabla.getSelectedRow(), 0));
+            int conf = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete '" + nombre + "'", "Delete", JOptionPane.OK_CANCEL_OPTION);
+            if(conf == 0){
+                if(tipo == 0) bd.sentencia("delete from peliculas where nombre = '" + nombre + "';");
+                else bd.sentencia("delete from series where nombre = '" + nombre + "';");
+            }
+        }else JOptionPane.showMessageDialog(rootPane, "Select a row to delete.");
     }//GEN-LAST:event_RemoveButtonActionPerformed
 
     private void CreatorInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatorInfoActionPerformed
@@ -362,6 +382,14 @@ public class MainMenu extends javax.swing.JFrame {
             
         }else sRow = Tabla.getSelectedRow();
     }//GEN-LAST:event_TablaMouseClicked
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        refrescar();
+    }//GEN-LAST:event_formFocusGained
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        refrescar();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
