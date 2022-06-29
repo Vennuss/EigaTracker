@@ -1,10 +1,18 @@
 package eigatracker;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Vennuss
  */
 public class MainMenu extends javax.swing.JFrame {
+    
+    final private BD bd = new BD();
+    private int sOption = 2;
 
     /**
      * Creates new form MainMenu
@@ -28,11 +36,11 @@ public class MainMenu extends javax.swing.JFrame {
         jLayeredPane1 = new javax.swing.JLayeredPane();
         SearchBar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        MoviesRb = new javax.swing.JRadioButton();
+        SeriesRb = new javax.swing.JRadioButton();
+        BothRb = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tabla = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         MFile = new javax.swing.JMenu();
@@ -49,33 +57,44 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel1.setText("Search");
 
-        SearchGroup.add(jRadioButton1);
-        jRadioButton1.setText("Movies");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        SearchGroup.add(MoviesRb);
+        MoviesRb.setText("Movies");
+        MoviesRb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                MoviesRbActionPerformed(evt);
             }
         });
 
-        SearchGroup.add(jRadioButton2);
-        jRadioButton2.setText("Series");
+        SearchGroup.add(SeriesRb);
+        SeriesRb.setText("Series");
+        SeriesRb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SeriesRbActionPerformed(evt);
+            }
+        });
 
-        SearchGroup.add(jRadioButton3);
-        jRadioButton3.setText("Both");
+        SearchGroup.add(BothRb);
+        BothRb.setSelected(true);
+        BothRb.setText("Both");
+        BothRb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BothRbActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "conocida", "Veces Vista"
+                "Nombre", "Veces Vista"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -86,13 +105,13 @@ public class MainMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Tabla);
 
         jLayeredPane1.setLayer(SearchBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jRadioButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jRadioButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jRadioButton3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(MoviesRb, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(SeriesRb, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(BothRb, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
@@ -107,11 +126,11 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(388, 388, 388)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                        .addComponent(MoviesRb)
                         .addGap(61, 61, 61)
-                        .addComponent(jRadioButton2)
+                        .addComponent(SeriesRb)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jRadioButton3))
+                        .addComponent(BothRb))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -127,9 +146,9 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
+                    .addComponent(MoviesRb)
+                    .addComponent(SeriesRb)
+                    .addComponent(BothRb))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1)
                 .addContainerGap())
@@ -195,15 +214,38 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void MoviesRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoviesRbActionPerformed
+        sOption = 0;
+    }//GEN-LAST:event_MoviesRbActionPerformed
 
     private void SearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBarActionPerformed
-        
+        ResultSet rs;
+        switch (sOption) {
+            case 0:
+                mostrar("select * from peliculas where nombre like '" + SearchBar.getText() + "%';", true);
+                break;
+            case 1:
+                mostrar("select * from series where nombre like '" + SearchBar.getText() + "%';", true);
+                break;
+            case 2:
+                mostrar("select * from peliculas where nombre like '" + SearchBar.getText() + "%';", true);
+                mostrar("select * from series where nombre like '" + SearchBar.getText() + "%';", true);
+                break;
+            default:
+                System.out.println("Error en sOption");
+                break;
+        }
         
         
     }//GEN-LAST:event_SearchBarActionPerformed
+
+    private void BothRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BothRbActionPerformed
+        sOption = 2;
+    }//GEN-LAST:event_BothRbActionPerformed
+
+    private void SeriesRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeriesRbActionPerformed
+         sOption = 1;
+    }//GEN-LAST:event_SeriesRbActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,23 +283,54 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton BothRb;
     private javax.swing.JMenu MEdit;
     private javax.swing.JMenu MFile;
+    private javax.swing.JRadioButton MoviesRb;
     private javax.swing.JTextField SearchBar;
     private javax.swing.ButtonGroup SearchGroup;
+    private javax.swing.JRadioButton SeriesRb;
+    private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
     
-    
+    private void mostrar(final String _sql, final boolean _borrar){
+        DefaultTableModel tm = (DefaultTableModel) Tabla.getModel();
+        Tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        if(_borrar) tm.setRowCount(0);
+        
+        try {
+            ResultSet rs1 = bd.consulta(_sql);
+            while (rs1.next()) {
+                String nombre = rs1.getString("nombre");
+                ResultSet rs2;
+                int vistas = 0;
+                switch(sOption){
+                    case 0 -> {
+                        rs2 = bd.consulta("select count(*) as vistas from registros_peliculas where nombre like '%" + nombre + "%';");
+                        vistas = rs2.getInt("vistas");
+                    }
+                    case 1 -> {
+                        rs2 = bd.consulta("select count(*) as vistas from registros_capitulos where serie = '%" + nombre + "%';");
+                        vistas = rs2.getInt("vistas");
+                    }
+                    case 2 -> {}
+                    default -> {}
+                }                
+                Object nuev[] = {nombre, vistas};
+                tm.addRow(nuev);
+            }
+            bd.cerrarConexion();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
     
 }
