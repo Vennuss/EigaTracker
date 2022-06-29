@@ -61,6 +61,7 @@ public class AddWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Window");
         setMinimumSize(new java.awt.Dimension(1100, 600));
+        setPreferredSize(new java.awt.Dimension(1200, 600));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Name");
