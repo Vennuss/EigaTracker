@@ -1,7 +1,11 @@
 package eigatracker;
 
+import java.awt.Image;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,12 +17,15 @@ public class MainMenu extends javax.swing.JFrame {
     
     final private BD bd = new BD();
     private int sOption = 2;
+    private int sRow = -1;
 
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
+        refrescar();
+        setImagenes();
     }
 
     /**
@@ -33,68 +40,46 @@ public class MainMenu extends javax.swing.JFrame {
         SearchGroup = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        SearchBar = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        MoviesRb = new javax.swing.JRadioButton();
-        SeriesRb = new javax.swing.JRadioButton();
-        BothRb = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        MoviesRb = new javax.swing.JRadioButton();
+        BothRb = new javax.swing.JRadioButton();
+        AddButton = new javax.swing.JButton();
+        RemoveButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        SearchBar = new javax.swing.JTextField();
+        SeriesRb = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         MFile = new javax.swing.JMenu();
+        ImportXML = new javax.swing.JMenuItem();
+        ExportXML = new javax.swing.JMenuItem();
         MEdit = new javax.swing.JMenu();
+        EditDelete = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        CreatorInfo = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EigaTracker");
+        setLocation(new java.awt.Point(400, 150));
+        setMinimumSize(new java.awt.Dimension(1100, 600));
 
-        SearchBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchBarActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Search");
-
-        SearchGroup.add(MoviesRb);
-        MoviesRb.setText("Movies");
-        MoviesRb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MoviesRbActionPerformed(evt);
-            }
-        });
-
-        SearchGroup.add(SeriesRb);
-        SeriesRb.setText("Series");
-        SeriesRb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SeriesRbActionPerformed(evt);
-            }
-        });
-
-        SearchGroup.add(BothRb);
-        BothRb.setSelected(true);
-        BothRb.setText("Both");
-        BothRb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BothRbActionPerformed(evt);
-            }
-        });
-
+        Tabla.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "Veces Vista"
+                "Nombre", "Tipo", "Veces Vista"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -105,53 +90,138 @@ public class MainMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        Tabla.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Tabla.setRowHeight(40);
+        Tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tabla);
 
-        jLayeredPane1.setLayer(SearchBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        SearchGroup.add(MoviesRb);
+        MoviesRb.setText("Movies");
+        MoviesRb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MoviesRb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MoviesRbActionPerformed(evt);
+            }
+        });
+
+        SearchGroup.add(BothRb);
+        BothRb.setSelected(true);
+        BothRb.setText("Both");
+        BothRb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BothRb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BothRbActionPerformed(evt);
+            }
+        });
+
+        AddButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddButtonActionPerformed(evt);
+            }
+        });
+
+        RemoveButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        RemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Search");
+
+        SearchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchBarActionPerformed(evt);
+            }
+        });
+        SearchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                SearchBarKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                SearchBarKeyTyped(evt);
+            }
+        });
+
+        SearchGroup.add(SeriesRb);
+        SeriesRb.setText("Series");
+        SeriesRb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SeriesRb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SeriesRbActionPerformed(evt);
+            }
+        });
+
         jLayeredPane1.setLayer(MoviesRb, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(SeriesRb, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(BothRb, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(AddButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(RemoveButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(SearchBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(SeriesRb, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGap(388, 388, 388)
+                .addContainerGap()
+                .addComponent(RemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(MoviesRb)
-                        .addGap(61, 61, 61)
+                        .addGap(60, 60, 60)
                         .addComponent(SeriesRb)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BothRb))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(BothRb)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MoviesRb)
-                    .addComponent(SeriesRb)
-                    .addComponent(BothRb))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1)
+                .addContainerGap()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(MoviesRb)
+                            .addComponent(SeriesRb)
+                            .addComponent(BothRb)))
+                    .addComponent(RemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(330, 330, 330)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -159,16 +229,23 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLayeredPane1)
-                .addContainerGap())
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1064, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLayeredPane1)
-                .addContainerGap())
+                .addGap(19, 19, 19)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                .addGap(31, 31, 31))
         );
 
         jTabbedPane1.addTab("Content", jPanel1);
@@ -177,20 +254,43 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1087, Short.MAX_VALUE)
+            .addGap(0, 1088, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGap(0, 532, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Stats", jPanel2);
 
         MFile.setText("File");
+
+        ImportXML.setText("Import XML");
+        MFile.add(ImportXML);
+
+        ExportXML.setText("Export XML");
+        MFile.add(ExportXML);
+
         jMenuBar1.add(MFile);
 
         MEdit.setText("Edit");
+
+        EditDelete.setText("Delete");
+        MEdit.add(EditDelete);
+
         jMenuBar1.add(MEdit);
+
+        jMenu1.setText("Info");
+
+        CreatorInfo.setText("Creator Info");
+        CreatorInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreatorInfoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CreatorInfo);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -200,52 +300,68 @@ public class MainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MoviesRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoviesRbActionPerformed
-        sOption = 0;
-    }//GEN-LAST:event_MoviesRbActionPerformed
-
-    private void SearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBarActionPerformed
-        ResultSet rs;
-        switch (sOption) {
-            case 0:
-                mostrar("select * from peliculas where nombre like '" + SearchBar.getText() + "%';", true);
-                break;
-            case 1:
-                mostrar("select * from series where nombre like '" + SearchBar.getText() + "%';", true);
-                break;
-            case 2:
-                mostrar("select * from peliculas where nombre like '" + SearchBar.getText() + "%';", true);
-                mostrar("select * from series where nombre like '" + SearchBar.getText() + "%';", true);
-                break;
-            default:
-                System.out.println("Error en sOption");
-                break;
-        }
-        
-        
-    }//GEN-LAST:event_SearchBarActionPerformed
-
     private void BothRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BothRbActionPerformed
         sOption = 2;
+        sRow = -1;
+        refrescar();
     }//GEN-LAST:event_BothRbActionPerformed
 
     private void SeriesRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeriesRbActionPerformed
-         sOption = 1;
+        sOption = 1;
+        sRow = -1;
+        refrescar();
     }//GEN-LAST:event_SeriesRbActionPerformed
+
+    private void MoviesRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoviesRbActionPerformed
+        sOption = 0;
+        sRow = -1;
+        refrescar();
+    }//GEN-LAST:event_MoviesRbActionPerformed
+
+    private void SearchBarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchBarKeyTyped
+        sRow = -1;
+        refrescar();
+    }//GEN-LAST:event_SearchBarKeyTyped
+
+    private void SearchBarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchBarKeyPressed
+
+    }//GEN-LAST:event_SearchBarKeyPressed
+
+    private void SearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBarActionPerformed
+
+    }//GEN-LAST:event_SearchBarActionPerformed
+
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddButtonActionPerformed
+
+    private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RemoveButtonActionPerformed
+
+    private void CreatorInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatorInfoActionPerformed
+        JOptionPane.showMessageDialog(rootPane, "Hugo de la Torre Pizarro");
+    }//GEN-LAST:event_CreatorInfoActionPerformed
+
+    private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
+        if (Tabla.getSelectedRow() == sRow){
+            
+        }else sRow = Tabla.getSelectedRow();
+    }//GEN-LAST:event_TablaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -283,24 +399,45 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddButton;
     private javax.swing.JRadioButton BothRb;
+    private javax.swing.JMenuItem CreatorInfo;
+    private javax.swing.JMenuItem EditDelete;
+    private javax.swing.JMenuItem ExportXML;
+    private javax.swing.JMenuItem ImportXML;
     private javax.swing.JMenu MEdit;
     private javax.swing.JMenu MFile;
     private javax.swing.JRadioButton MoviesRb;
+    private javax.swing.JButton RemoveButton;
     private javax.swing.JTextField SearchBar;
     private javax.swing.ButtonGroup SearchGroup;
     private javax.swing.JRadioButton SeriesRb;
     private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
     
-    private void mostrar(final String _sql, final boolean _borrar){
+    final void setImagenes(){
+        cargarIMG("..\\Images\\add.png", AddButton, 40);
+        cargarIMG("..\\Images\\delete.png", RemoveButton, 40);
+    }
+    
+    
+    private void cargarIMG(final String _url, final JButton _boton, final int _size) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(_url));
+        ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(_size, _size, Image.SCALE_DEFAULT));
+        _boton.setIcon(icono);
+    }
+    
+    
+    private void mostrar(final String _sql, final boolean _borrar, final int _opt){
         DefaultTableModel tm = (DefaultTableModel) Tabla.getModel();
         Tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
@@ -310,26 +447,55 @@ public class MainMenu extends javax.swing.JFrame {
             ResultSet rs1 = bd.consulta(_sql);
             while (rs1.next()) {
                 String nombre = rs1.getString("nombre");
-                ResultSet rs2;
+                String tipo;
+                if(_opt == 0) tipo = "Pelicula";
+                else tipo = "Serie";
+                ResultSet rs2 = null;
                 int vistas = 0;
-                switch(sOption){
+                switch(_opt){
                     case 0 -> {
-                        rs2 = bd.consulta("select count(*) as vistas from registros_peliculas where nombre like '%" + nombre + "%';");
-                        vistas = rs2.getInt("vistas");
+                        rs2 = bd.consulta("select count(*) as vistas from registros_peliculas where pelicula_ref = '" + nombre + "';");
+//                        vistas = rs2.getInt("vistas");
+                        while (rs2.next()) {
+                            vistas = rs2.getInt("vistas");
+                        }
+                        rs2.close();
                     }
                     case 1 -> {
-                        rs2 = bd.consulta("select count(*) as vistas from registros_capitulos where serie = '%" + nombre + "%';");
-                        vistas = rs2.getInt("vistas");
+                        rs2 = bd.consulta("select count(*) as vistas from registros_capitulos where capitulo_ref = (select id from capitulos where serie = '" + nombre + "');");
+//                        vistas = rs2.getInt("vistas");
+                        while (rs2.next()) {
+                            vistas = rs2.getInt("vistas");
+                        }
+                        rs2.close();
                     }
                     case 2 -> {}
                     default -> {}
                 }                
-                Object nuev[] = {nombre, vistas};
+                Object nuev[] = {nombre, tipo, vistas};
                 tm.addRow(nuev);
             }
             bd.cerrarConexion();
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error: " + ex.getMessage() + "\n" + ex.getCause());
+        }
+    }
+    
+    private void refrescar(){
+        switch (sOption) {
+            case 0:
+                mostrar("select * from peliculas where nombre like '%" + SearchBar.getText() + "%';", true, 0);
+                break;
+            case 1:
+                mostrar("select * from series where nombre like '%" + SearchBar.getText() + "%';", true, 1);
+                break;
+            case 2:
+                mostrar("select * from peliculas where nombre like '%" + SearchBar.getText() + "%';", true, 0);
+                mostrar("select * from series where nombre like '%" + SearchBar.getText() + "%';", false, 1);
+                break;
+            default:
+                System.out.println("Error en sOption");
+                break;
         }
     }
     
