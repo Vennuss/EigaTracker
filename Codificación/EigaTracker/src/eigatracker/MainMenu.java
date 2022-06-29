@@ -99,7 +99,7 @@ public class MainMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Tipo", "Veces Vista"
+                "Name", "Type", "Views"
             }
         ) {
             Class[] types = new Class [] {
@@ -295,34 +295,34 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel2.setText("STATS");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setText("Media de comprensión por pelicula");
+        jLabel3.setText("Average Movie Comprehension");
 
         MCPelicula.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         MCPelicula.setText("00%");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel5.setText("Media de comprensión por serie");
+        jLabel5.setText("Average Series Comprehension");
 
         MCSerie.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         MCSerie.setText("00%");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel7.setText("Media de diversión por pelicula");
+        jLabel7.setText("Average Movie Fun");
 
         MDPelicula.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         MDPelicula.setText("00%");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel9.setText("Media de diversión por serie");
+        jLabel9.setText("Average Series Fun");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel11.setText("Media de visualizaciones por pelicula");
+        jLabel11.setText("Average Series Views");
 
         MDSerie.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         MDSerie.setText("00%");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel13.setText("Media de visualizaciones por pelicula");
+        jLabel13.setText("Average Movie Views");
 
         MVSerie.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         MVSerie.setText("0,0");
@@ -367,7 +367,7 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
                                 .addComponent(MVSerie)))
-                        .addContainerGap(717, Short.MAX_VALUE))))
+                        .addContainerGap(758, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

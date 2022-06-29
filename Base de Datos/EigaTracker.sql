@@ -4,12 +4,12 @@ use eigatracker;
 
 create table series (
 nombre VARCHAR(250) not null primary key,
-descripcion TEXT null
+notas TEXT null
 );
 
 create table peliculas (
 nombre VARCHAR(250) not null primary key,
-descripcion TEXT null,
+notas TEXT null,
 conocida bool default false
 );
 

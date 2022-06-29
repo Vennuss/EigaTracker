@@ -34,7 +34,7 @@ public class AddWindow extends javax.swing.JFrame {
         MovieName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        MovieDescription = new javax.swing.JTextArea();
+        MovieNotas = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         MovieCheck = new javax.swing.JCheckBox();
         AddMovie = new javax.swing.JButton();
@@ -43,7 +43,7 @@ public class AddWindow extends javax.swing.JFrame {
         SeriesName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        SeriesDescription = new javax.swing.JTextArea();
+        SeriesNotas = new javax.swing.JTextArea();
         AddSeries = new javax.swing.JButton();
         ChapterPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -80,18 +80,18 @@ public class AddWindow extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Description");
+        jLabel2.setText("Notes");
 
-        MovieDescription.setColumns(20);
-        MovieDescription.setRows(5);
-        MovieDescription.setNextFocusableComponent(AddChapter);
-        jScrollPane1.setViewportView(MovieDescription);
+        MovieNotas.setColumns(20);
+        MovieNotas.setRows(5);
+        MovieNotas.setNextFocusableComponent(AddChapter);
+        jScrollPane1.setViewportView(MovieNotas);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Have you seen this movie in a known lenguage?");
 
         MovieCheck.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        MovieCheck.setNextFocusableComponent(MovieDescription);
+        MovieCheck.setNextFocusableComponent(MovieNotas);
 
         AddMovie.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         AddMovie.setText("ADD");
@@ -149,15 +149,15 @@ public class AddWindow extends javax.swing.JFrame {
         jLabel4.setText("Name");
 
         SeriesName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        SeriesName.setNextFocusableComponent(SeriesDescription);
+        SeriesName.setNextFocusableComponent(SeriesNotas);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("Description");
+        jLabel5.setText("Notes");
 
-        SeriesDescription.setColumns(20);
-        SeriesDescription.setRows(5);
-        SeriesDescription.setNextFocusableComponent(AddChapter);
-        jScrollPane2.setViewportView(SeriesDescription);
+        SeriesNotas.setColumns(20);
+        SeriesNotas.setRows(5);
+        SeriesNotas.setNextFocusableComponent(AddChapter);
+        jScrollPane2.setViewportView(SeriesNotas);
 
         AddSeries.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         AddSeries.setText("ADD");
@@ -296,15 +296,15 @@ public class AddWindow extends javax.swing.JFrame {
                                     .addGroup(ChapterPanelLayout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ChapterNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
+                                        .addComponent(ChapterNumber)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(ChapterSeason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(ChapterPanelLayout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ChapterSearchBar)))
+                                        .addComponent(ChapterSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -368,7 +368,7 @@ public class AddWindow extends javax.swing.JFrame {
     private void AddMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMovieActionPerformed
         if(!MovieName.getText().isBlank()){
             BD bd = new BD();
-            String sql = "insert into peliculas values('" + MovieName.getText() + "', '" + MovieDescription.getText() + "'," + MovieCheck.isSelected() + ");";
+            String sql = "insert into peliculas values('" + MovieName.getText() + "', '" + MovieNotas.getText() + "'," + MovieCheck.isSelected() + ");";
             bd.sentencia(sql);
             dispose();
         }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.");
@@ -377,7 +377,7 @@ public class AddWindow extends javax.swing.JFrame {
     private void AddSeriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSeriesActionPerformed
         if(!SeriesName.getText().isBlank()){
             BD bd = new BD();
-            String sql = "insert into series values('" + SeriesName.getText() + "', '" + SeriesDescription.getText() + "');";
+            String sql = "insert into series values('" + SeriesName.getText() + "', '" + SeriesNotas.getText() + "');";
             bd.sentencia(sql);
             dispose();
         }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.");
@@ -392,9 +392,10 @@ public class AddWindow extends javax.swing.JFrame {
                 bd.sentencia(sql);
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(rootPane, "Error! " + ex.getMessage() + "\n" + ex.getCause());
+                
             }
             dispose();
-        }
+        }else JOptionPane.showMessageDialog(rootPane, "A Series is needed.");
     }//GEN-LAST:event_AddChapterActionPerformed
 
     private void ChapterSearchBarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ChapterSearchBarKeyTyped
@@ -450,11 +451,11 @@ public class AddWindow extends javax.swing.JFrame {
     private javax.swing.JTextField ChapterSearchBar;
     private javax.swing.JSpinner ChapterSeason;
     private javax.swing.JCheckBox MovieCheck;
-    private javax.swing.JTextArea MovieDescription;
     private javax.swing.JTextField MovieName;
+    private javax.swing.JTextArea MovieNotas;
     private javax.swing.JPanel MoviePanel;
-    private javax.swing.JTextArea SeriesDescription;
     private javax.swing.JTextField SeriesName;
+    private javax.swing.JTextArea SeriesNotas;
     private javax.swing.JPanel SeriesPanel;
     private javax.swing.JTable SeriesTabla;
     private javax.swing.JLabel jLabel1;
