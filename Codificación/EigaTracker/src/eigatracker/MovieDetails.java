@@ -17,7 +17,8 @@ import javax.swing.table.DefaultTableModel;
 public class MovieDetails extends javax.swing.JFrame {
     
     private BD bd = new BD();
-    private String movie;
+    private String MOVIE;
+    private int sRow = -1;
     
     /**
      * Creates new form MovieDetails
@@ -25,8 +26,8 @@ public class MovieDetails extends javax.swing.JFrame {
      */
     public MovieDetails(final String _movie) {
         initComponents();
-        movie = _movie;
-        Name.setText(movie);
+        MOVIE = _movie;
+        Name.setText(MOVIE);
         start();
     }
 
@@ -67,6 +68,11 @@ public class MovieDetails extends javax.swing.JFrame {
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
             }
         });
 
@@ -132,6 +138,11 @@ public class MovieDetails extends javax.swing.JFrame {
         });
         Table.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Table.setRowHeight(40);
+        Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(Table);
 
         Add.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -234,11 +245,12 @@ public class MovieDetails extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(Known, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Name))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Known, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(Name)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -253,15 +265,16 @@ public class MovieDetails extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(AvgC)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(Last))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel9)
-                        .addComponent(MostC)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(Last))))
+                        .addComponent(MostC))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(AvgC)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -275,11 +288,12 @@ public class MovieDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void KnownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KnownActionPerformed
-        bd.sentencia("update peliculas set conocida = " + Known.isSelected() + " where nombre = '" + movie + "';");
+        bd.sentencia("update peliculas set conocida = " + Known.isSelected() + " where nombre = '" + MOVIE + "';");
     }//GEN-LAST:event_KnownActionPerformed
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
-        // TODO add your handling code here:
+        MovieRecord mr = new MovieRecord();
+        mr.setVisible(true);
     }//GEN-LAST:event_AddActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
@@ -294,12 +308,24 @@ public class MovieDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_formComponentShown
 
     private void NotesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NotesKeyTyped
-        bd.sentencia("update peliculas set notas = '" + Notes.getText() + "' where nombre = '" + movie + "';");
+        bd.sentencia("update peliculas set notas = '" + Notes.getText() + "' where nombre = '" + MOVIE + "';");
     }//GEN-LAST:event_NotesKeyTyped
+
+    private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
+        if(sRow == Table.getSelectedRow()){
+            MovieRecord mr = new MovieRecord(Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
+            mr.setVisible(true);
+            sRow = -1;
+        }else sRow = Table.getSelectedRow();
+    }//GEN-LAST:event_TableMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        start();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -376,7 +402,7 @@ public class MovieDetails extends javax.swing.JFrame {
     private void start(){
         try {
             setImagenes();
-            String sql = "select * from peliculas where nombre = '" + movie + "';";
+            String sql = "select * from peliculas where nombre = '" + MOVIE + "';";
             ResultSet rs = bd.consulta(sql);
             while(rs.next()){
                 Known.setSelected(rs.getBoolean("conocida"));
@@ -385,11 +411,11 @@ public class MovieDetails extends javax.swing.JFrame {
             }
             bd.cerrarConexion();
             refreshTable();
-            AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + movie + "';","comp")) + "%");
-            AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + movie + "';","fun")) + "%");
-            MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + movie + "';","comp")) + "%");
-            MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + movie + "';","fun")) + "%");
-            Last.setText(consultarString("select fecha from registros_peliculas where pelicula_ref = '" + movie + "' order by fecha desc limit 1 ;","fecha"));
+            AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + MOVIE + "';","comp")) + "%");
+            AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + MOVIE + "';","fun")) + "%");
+            MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + MOVIE + "';","comp")) + "%");
+            MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + MOVIE + "';","fun")) + "%");
+            Last.setText(consultarString("select fecha from registros_peliculas where pelicula_ref = '" + MOVIE + "' order by fecha desc limit 1 ;","fecha"));
         } catch (SQLException ex) {
             Logger.getLogger(MovieDetails.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -403,7 +429,7 @@ public class MovieDetails extends javax.swing.JFrame {
             
             tm.setRowCount(0);
             
-            String sql = "select * from registros_peliculas where pelicula_ref = '" + movie + "';";
+            String sql = "select * from registros_peliculas where pelicula_ref = '" + MOVIE + "';";
             ResultSet rs = bd.consulta(sql);
             while(rs.next()){
                 int id = rs.getInt("id");
@@ -417,23 +443,6 @@ public class MovieDetails extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(MovieDetails.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
-        }
-    }
-    
-    private int consultarInt(final String _sql, final String _valor){
-        ResultSet rs = bd.consulta(_sql);
-        try {
-            int r = 0;
-            while(rs.next()){
-                r = rs.getInt(_valor);
-                break;
-            }
-            bd.cerrarConexion();
-            return r;
-        } catch (SQLException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.getMessage());
-            return 0;
         }
     }
     
