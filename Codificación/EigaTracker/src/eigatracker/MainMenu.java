@@ -1,8 +1,7 @@
 package eigatracker;
 
 import java.awt.Image;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -607,7 +606,14 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void ContentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContentTableMouseClicked
         if (ContentTable.getSelectedRow() == sRow){
-            
+            if(ContentTable.getValueAt(ContentTable.getSelectedRow(), 1) == "Pelicula"){
+                MovieDetails md = new MovieDetails(String.valueOf(ContentTable.getValueAt(ContentTable.getSelectedRow(), 0)));
+                md.setVisible(true);
+                sRow = -1;
+            }
+            else{
+                System.out.println("Detalles Serie");
+            }
         }else sRow = ContentTable.getSelectedRow();
     }//GEN-LAST:event_ContentTableMouseClicked
 
