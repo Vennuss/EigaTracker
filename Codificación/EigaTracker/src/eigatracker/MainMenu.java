@@ -26,7 +26,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
-        refrescar();
+        refrescarCT();
         setImagenes();
     }
 
@@ -43,7 +43,7 @@ public class MainMenu extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Tabla = new javax.swing.JTable();
+        ContentTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         MoviesRb = new javax.swing.JRadioButton();
@@ -69,6 +69,12 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         MVSerie = new javax.swing.JLabel();
         MVPelicula = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        BMovies = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        BSeries = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         MFile = new javax.swing.JMenu();
         ImportXML = new javax.swing.JMenuItem();
@@ -93,8 +99,8 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        Tabla.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        Tabla.setModel(new javax.swing.table.DefaultTableModel(
+        ContentTable.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        ContentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -117,15 +123,15 @@ public class MainMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        Tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        Tabla.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Tabla.setRowHeight(40);
-        Tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+        ContentTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        ContentTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ContentTable.setRowHeight(40);
+        ContentTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaMouseClicked(evt);
+                ContentTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(Tabla);
+        jScrollPane1.setViewportView(ContentTable);
 
         SearchGroup.add(MoviesRb);
         MoviesRb.setText("Movies");
@@ -295,7 +301,7 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel2.setText("STATS");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setText("Average Movie Comprehension");
+        jLabel3.setText("Most Watched Movies");
 
         MCPelicula.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         MCPelicula.setText("00%");
@@ -330,6 +336,66 @@ public class MainMenu extends javax.swing.JFrame {
         MVPelicula.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         MVPelicula.setText("0,0");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel4.setText("Average Movie Comprehension");
+
+        BMovies.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        BMovies.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Movie", "Views"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        BMovies.setRowHeight(40);
+        jScrollPane3.setViewportView(BMovies);
+
+        BSeries.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        BSeries.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Series", "Views"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        BSeries.setRowHeight(40);
+        jScrollPane4.setViewportView(BSeries);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel6.setText("Most Watched Series");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -344,13 +410,13 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(MCPelicula))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addComponent(MCSerie))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(MCPelicula))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
@@ -367,7 +433,13 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
                                 .addComponent(MVSerie)))
-                        .addContainerGap(758, Short.MAX_VALUE))))
+                        .addGap(137, 137, 137)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(53, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,28 +449,39 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(MCPelicula))
+                    .addComponent(MCPelicula)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(MCSerie))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(MDPelicula))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(MDSerie))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(MVPelicula))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(MVSerie))
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(MCSerie))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(MDPelicula))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(MDSerie)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(MVPelicula))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(MVSerie)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel4);
@@ -472,24 +555,24 @@ public class MainMenu extends javax.swing.JFrame {
     private void BothRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BothRbActionPerformed
         sOption = 2;
         sRow = -1;
-        refrescar();
+        refrescarCT();
     }//GEN-LAST:event_BothRbActionPerformed
 
     private void SeriesRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeriesRbActionPerformed
         sOption = 1;
         sRow = -1;
-        refrescar();
+        refrescarCT();
     }//GEN-LAST:event_SeriesRbActionPerformed
 
     private void MoviesRbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoviesRbActionPerformed
         sOption = 0;
         sRow = -1;
-        refrescar();
+        refrescarCT();
     }//GEN-LAST:event_MoviesRbActionPerformed
 
     private void SearchBarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchBarKeyTyped
         sRow = -1;
-        refrescar();
+        refrescarCT();
     }//GEN-LAST:event_SearchBarKeyTyped
 
     private void SearchBarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchBarKeyPressed
@@ -506,10 +589,10 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
-        if(Tabla.getSelectedRow() != -1){
+        if(ContentTable.getSelectedRow() != -1){
             int tipo = 0;
-            if(Tabla.getValueAt(Tabla.getSelectedRow(), 1) == "Serie") tipo = 1;
-            String nombre = String.valueOf(Tabla.getValueAt(Tabla.getSelectedRow(), 0));
+            if(ContentTable.getValueAt(ContentTable.getSelectedRow(), 1) == "Serie") tipo = 1;
+            String nombre = String.valueOf(ContentTable.getValueAt(ContentTable.getSelectedRow(), 0));
             int conf = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete '" + nombre + "'", "Delete", JOptionPane.OK_CANCEL_OPTION);
             if(conf == 0){
                 if(tipo == 0) bd.sentencia("delete from peliculas where nombre = '" + nombre + "';");
@@ -522,18 +605,18 @@ public class MainMenu extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, "Hugo de la Torre Pizarro");
     }//GEN-LAST:event_CreatorInfoActionPerformed
 
-    private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
-        if (Tabla.getSelectedRow() == sRow){
+    private void ContentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContentTableMouseClicked
+        if (ContentTable.getSelectedRow() == sRow){
             
-        }else sRow = Tabla.getSelectedRow();
-    }//GEN-LAST:event_TablaMouseClicked
+        }else sRow = ContentTable.getSelectedRow();
+    }//GEN-LAST:event_ContentTableMouseClicked
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-        refrescar();
+        refrescarCT();
     }//GEN-LAST:event_formFocusGained
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        refrescar();
+        refrescarCT();
     }//GEN-LAST:event_formWindowActivated
 
     private void jScrollPane2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPane2ComponentShown
@@ -551,6 +634,9 @@ public class MainMenu extends javax.swing.JFrame {
         + "%");
         MVPelicula.setText(Double.toString(consultarDouble("select avg(visualizaciones) as 'visualizaciones' from (select count(*) as 'visualizaciones' from registros_peliculas group by pelicula_ref) as deribada;","visualizaciones")));
         MVSerie.setText(Double.toString(consultarDouble("select avg(visualizaciones) as 'visualizaciones' from (select count(*) as 'visualizaciones' from registros_capitulos, capitulos where registros_capitulos.capitulo_ref = capitulos.id group by serie) as deribada;","visualizaciones")));
+        mostrarBM();
+        mostrarBS();
+        
     }//GEN-LAST:event_jPanel2ComponentShown
 
     /**
@@ -590,7 +676,10 @@ public class MainMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
+    private javax.swing.JTable BMovies;
+    private javax.swing.JTable BSeries;
     private javax.swing.JRadioButton BothRb;
+    private javax.swing.JTable ContentTable;
     private javax.swing.JMenuItem CreatorInfo;
     private javax.swing.JMenuItem EditDelete;
     private javax.swing.JMenuItem ExportXML;
@@ -608,13 +697,14 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField SearchBar;
     private javax.swing.ButtonGroup SearchGroup;
     private javax.swing.JRadioButton SeriesRb;
-    private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
@@ -626,6 +716,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
     
@@ -642,9 +734,9 @@ public class MainMenu extends javax.swing.JFrame {
     }
     
     
-    private void mostrar(final String _sql, final boolean _borrar, final int _opt){
-        DefaultTableModel tm = (DefaultTableModel) Tabla.getModel();
-        Tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    private void mostrarCT(final String _sql, final boolean _borrar, final int _opt){
+        DefaultTableModel tm = (DefaultTableModel) ContentTable.getModel();
+        ContentTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         if(_borrar) tm.setRowCount(0);
         
@@ -686,21 +778,63 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
     
-    private void refrescar(){
+    private void refrescarCT(){
         switch (sOption) {
             case 0:
-                mostrar("select * from peliculas where nombre like '%" + SearchBar.getText() + "%';", true, 0);
+                mostrarCT("select * from peliculas where nombre like '%" + SearchBar.getText() + "%';", true, 0);
                 break;
             case 1:
-                mostrar("select * from series where nombre like '%" + SearchBar.getText() + "%';", true, 1);
+                mostrarCT("select * from series where nombre like '%" + SearchBar.getText() + "%';", true, 1);
                 break;
             case 2:
-                mostrar("select * from peliculas where nombre like '%" + SearchBar.getText() + "%';", true, 0);
-                mostrar("select * from series where nombre like '%" + SearchBar.getText() + "%';", false, 1);
+                mostrarCT("select * from peliculas where nombre like '%" + SearchBar.getText() + "%';", true, 0);
+                mostrarCT("select * from series where nombre like '%" + SearchBar.getText() + "%';", false, 1);
                 break;
             default:
                 System.out.println("Error en sOption");
                 break;
+        }
+    }
+    
+    private void mostrarBM(){
+        DefaultTableModel tm = (DefaultTableModel) BMovies.getModel();
+        BMovies.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        tm.setRowCount(0);
+        
+        try {
+            String sql = "select nombre, max(vistas) as 'vistas' from (select count(*) as 'vistas', pelicula_ref as 'nombre' from registros_peliculas group by pelicula_ref) as deribada;";
+            ResultSet rs = bd.consulta(sql);
+            while (rs.next()) {
+                String nombre = rs.getString("nombre");
+                int vistas = rs.getInt("vistas");
+                Object nuev[] = {nombre, vistas};
+                tm.addRow(nuev);
+            }
+            bd.cerrarConexion();
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage() + "\n" + ex.getCause());
+        }
+    }
+    
+    private void mostrarBS(){
+        DefaultTableModel tm = (DefaultTableModel) BSeries.getModel();
+        BSeries.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        tm.setRowCount(0);
+        
+        try {
+            String sql = "select serie as 'nombre', max(vistas) as 'vistas' from (select serie, count(*) as 'vistas' from capitulos,registros_capitulos where capitulos.id = capitulo_ref group by serie) as deribada1;";
+            ResultSet rs = bd.consulta(sql);
+            while (rs.next()) {
+                String nombre = rs.getString("nombre");
+                int vistas = rs.getInt("vistas");        
+                Object nuev[] = {nombre, vistas};
+                tm.addRow(nuev);
+            }
+            bd.cerrarConexion();
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage() + "\n" + ex.getCause());
         }
     }
     
@@ -723,6 +857,7 @@ public class MainMenu extends javax.swing.JFrame {
             double r = 0.0;
             while(rs.next()){
                 r = rs.getDouble(_valor);
+                break;
             }
             bd.cerrarConexion();
             return r;

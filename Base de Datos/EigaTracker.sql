@@ -15,6 +15,7 @@ conocida bool default false
 
 create table capitulos (
 id int null auto_increment primary key,
+notas text null,
 conocida bool default false,
 capitulo int(2) not null,
 serie VARCHAR(250) not null,
