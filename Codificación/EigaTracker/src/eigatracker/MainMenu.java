@@ -1,6 +1,7 @@
 package eigatracker;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
+        bd.startXampp();
         refrescarCT();
         setImagenes();
     }

@@ -1,4 +1,5 @@
 package eigatracker;
+import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,19 @@ public class BD {
     private static final String PASS = "";
     private Connection con;
     private Statement st;
+    
+    
+    public void startXampp() {
+        try {
+            Process PROCESS_SQL = Runtime.getRuntime().exec("D:\\XAMPP\\xampp_start.exe");
+            Thread.sleep(1000);
+            }
+        catch (InterruptedException | IOException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            System.exit(0);
+        }
+    }
     
     /**
      * Establece la conexion con la Base de Datos
