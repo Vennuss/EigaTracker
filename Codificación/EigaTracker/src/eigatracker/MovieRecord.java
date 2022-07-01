@@ -1,6 +1,5 @@
 package eigatracker;
 
-import com.mysql.cj.util.EscapeTokenizer;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
@@ -16,13 +15,16 @@ public class MovieRecord extends javax.swing.JFrame {
 
     BD bd = new BD();
     final private int ID;
+    final private String NAME;
     
     /**
      * Creates new form MovieRecord
+     * @param _name
      */
-    public MovieRecord() {
+    public MovieRecord(final String _name) {
         initComponents();
         ID = -1;
+        NAME = _name;
         start();
     }
     
@@ -30,9 +32,10 @@ public class MovieRecord extends javax.swing.JFrame {
      * Creates new form MovieRecord
      * @param _Id
      */
-    public MovieRecord(final int _Id) {
+    public MovieRecord(final String _name, final int _Id) {
         initComponents();
         ID = _Id;
+        NAME = _name;
         start();
     }
 
@@ -46,9 +49,6 @@ public class MovieRecord extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        SearchBar = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Tabla = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -57,7 +57,7 @@ public class MovieRecord extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Notes = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        Button = new javax.swing.JButton();
         Comp = new javax.swing.JSpinner();
         Fun = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
@@ -70,55 +70,13 @@ public class MovieRecord extends javax.swing.JFrame {
         Hour = new javax.swing.JSpinner();
         Month = new javax.swing.JSpinner();
         Minute = new javax.swing.JSpinner();
+        Name = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Movie Record");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Movie");
-
-        SearchBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchBarActionPerformed(evt);
-            }
-        });
-        SearchBar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                SearchBarKeyTyped(evt);
-            }
-        });
-
-        Tabla.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Tabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Movie"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        Tabla.setRowHeight(40);
-        Tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(Tabla);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Comprehension");
@@ -147,11 +105,11 @@ public class MovieRecord extends javax.swing.JFrame {
         Notes.setRows(5);
         jScrollPane2.setViewportView(Notes);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton1.setText("REGISTER");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Button.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        Button.setText("REGISTER");
+        Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ButtonActionPerformed(evt);
             }
         });
 
@@ -196,6 +154,9 @@ public class MovieRecord extends javax.swing.JFrame {
         Minute.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
         Minute.setEnabled(false);
 
+        Name.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        Name.setText("Error");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,108 +165,93 @@ public class MovieRecord extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 1156, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(Button))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Comp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
-                                .addGap(30, 30, 30)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Fun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Check))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Hour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Minute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(Name))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Comp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel3)
+                                    .addGap(30, 30, 30)
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Fun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Check))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel9)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel10)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Hour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel11)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Minute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 610, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(Comp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Fun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Check))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(Year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Hour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Minute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(Name))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(Comp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Fun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Check))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(Year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Hour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Minute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(Button)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void SearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SearchBarActionPerformed
-
-    private void SearchBarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchBarKeyTyped
-        refreshTable();
-    }//GEN-LAST:event_SearchBarKeyTyped
 
     private void CheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckActionPerformed
         Year.setEnabled(Check.isSelected());
@@ -315,34 +261,33 @@ public class MovieRecord extends javax.swing.JFrame {
         Minute.setEnabled(Check.isSelected());
     }//GEN-LAST:event_CheckActionPerformed
 
-    private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
-        
-    }//GEN-LAST:event_TablaMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonActionPerformed
         String sql = "";
-        if(Tabla.getSelectedRow() != -1 || ID != -1){
-            System.out.println("Registrando");
-            if(ID == -1){
-            if(!Check.isSelected()) sql = "insert into registros_peliculas (notas,comprension,diversion,pelicula_ref) "
-                    + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + String.valueOf(Tabla.getValueAt(Tabla.getSelectedRow(),0)) +"');";
-            else sql = "insert into registros_peliculas (notas,comprension,diversion,pelicula_ref, fecha) "
-                + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + String.valueOf(Tabla.getValueAt(Tabla.getSelectedRow(),0)) +"', '"
-                    + String.valueOf(Year.getValue()) + "/" + String.valueOf(Month.getValue()) + "/" + String.valueOf(Day.getValue()) + " "
-                    + String.valueOf(Hour.getValue()) + ":" + String.valueOf(Minute.getValue()) +"');";
+        if (ID == -1) {
+            if (!Check.isSelected()) {
+                sql = "insert into registros_peliculas (notas,comprension,diversion,pelicula_ref) "
+                        + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + NAME + "');";
+            } else {
+                sql = "insert into registros_peliculas (notas,comprension,diversion,pelicula_ref, fecha) "
+                        + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + NAME + "', '"
+                        + String.valueOf(Year.getValue()) + "/" + String.valueOf(Month.getValue()) + "/" + String.valueOf(Day.getValue()) + " "
+                        + String.valueOf(Hour.getValue()) + ":" + String.valueOf(Minute.getValue()) + "');";
             }
-            else{
-                if(Check.isSelected()) sql = "update registros_peliculas set notas = '" + Notes.getText() + "', comprension = " + String.valueOf(Comp.getValue()) + ", diversion = " + String.valueOf(Fun.getValue())
+        } else {
+            if (Check.isSelected()) {
+                sql = "update registros_peliculas set notas = '" + Notes.getText() + "', comprension = " + String.valueOf(Comp.getValue()) + ", diversion = " + String.valueOf(Fun.getValue())
                         + ", fecha = '" + String.valueOf(Year.getValue()) + "/" + String.valueOf(Month.getValue()) + "/" + String.valueOf(Day.getValue()) + " "
                         + String.valueOf(Hour.getValue()) + ":" + String.valueOf(Minute.getValue())
                         + "' where id = " + ID + ";";
-                else sql = "update registros_peliculas set notas = '" + Notes.getText() + "', comprension = " + String.valueOf(Comp.getValue()) + ", diversion = " + String.valueOf(Fun.getValue())
+            } else {
+                sql = "update registros_peliculas set notas = '" + Notes.getText() + "', comprension = " + String.valueOf(Comp.getValue()) + ", diversion = " + String.valueOf(Fun.getValue())
                         + " where id = " + ID + ";";
             }
-            dispose();
-        }else JOptionPane.showMessageDialog(rootPane, "A Movie is Needed");
+        }
+        dispose();
         if(!sql.isEmpty()) bd.sentencia(sql);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        else JOptionPane.showMessageDialog(rootPane, "There has been an error.", "Error", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_ButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,12 +319,13 @@ public class MovieRecord extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MovieRecord().setVisible(true);
+                new MovieRecord("Kung-fu Panda 1").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button;
     private javax.swing.JCheckBox Check;
     private javax.swing.JSpinner Comp;
     private javax.swing.JSpinner Day;
@@ -387,11 +333,9 @@ public class MovieRecord extends javax.swing.JFrame {
     private javax.swing.JSpinner Hour;
     private javax.swing.JSpinner Minute;
     private javax.swing.JSpinner Month;
+    private javax.swing.JLabel Name;
     private javax.swing.JTextArea Notes;
-    private javax.swing.JTextField SearchBar;
-    private javax.swing.JTable Tabla;
     private javax.swing.JSpinner Year;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -403,43 +347,19 @@ public class MovieRecord extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 
 
     private void start(){
-        if(ID == -1){
-            refreshTable();
-        }
+        Name.setText(NAME);
+        if(ID == -1) Button.setText("REGISTER");
         else{
-            SearchBar.setEnabled(false);
-            Tabla.setEnabled(false);
+            Button.setText("UPDATE");
             Comp.setValue(consultarInt("select comprension from registros_peliculas where id = " + ID + ";","comprension"));
             Fun.setValue(consultarInt("select diversion from registros_peliculas where id = " + ID + ";","diversion"));
             Notes.setText(consultarString("select notas from registros_peliculas where id = " + ID + ";","notas"));
             
-        }
-    }
-    
-    private void refreshTable(){
-        DefaultTableModel tm = (DefaultTableModel) Tabla.getModel();
-        Tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-        tm.setRowCount(0);
-        
-        String sql = "select nombre from peliculas where nombre like '%" + SearchBar.getText() + "%';";
-        ResultSet rs = bd.consulta(sql);
-        try {
-            while(rs.next()){
-                String nombre = rs.getString("nombre");
-                Object nuev[] = {nombre};
-                tm.addRow(nuev);
-            }
-            bd.cerrarConexion();
-        } catch (SQLException ex) {
-            Logger.getLogger(MovieRecord.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.getMessage());
         }
     }
     

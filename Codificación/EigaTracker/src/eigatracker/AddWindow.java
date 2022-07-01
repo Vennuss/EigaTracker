@@ -371,7 +371,7 @@ public class AddWindow extends javax.swing.JFrame {
             String sql = "insert into peliculas values('" + MovieName.getText() + "', '" + MovieNotas.getText() + "'," + MovieCheck.isSelected() + ");";
             bd.sentencia(sql);
             dispose();
-        }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.");
+        }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.", "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_AddMovieActionPerformed
 
     private void AddSeriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSeriesActionPerformed
@@ -380,7 +380,7 @@ public class AddWindow extends javax.swing.JFrame {
             String sql = "insert into series values('" + SeriesName.getText() + "', '" + SeriesNotas.getText() + "');";
             bd.sentencia(sql);
             dispose();
-        }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.");
+        }else JOptionPane.showMessageDialog(rootPane, "A Name is needed.", "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_AddSeriesActionPerformed
 
     private void AddChapterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddChapterActionPerformed
@@ -395,7 +395,7 @@ public class AddWindow extends javax.swing.JFrame {
                 
             }
             dispose();
-        }else JOptionPane.showMessageDialog(rootPane, "A Series is needed.");
+        }else JOptionPane.showMessageDialog(rootPane, "A Series is needed.", "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_AddChapterActionPerformed
 
     private void ChapterSearchBarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ChapterSearchBarKeyTyped

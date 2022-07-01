@@ -292,7 +292,7 @@ public class MovieDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_KnownActionPerformed
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
-        MovieRecord mr = new MovieRecord();
+        MovieRecord mr = new MovieRecord(MOVIE);
         mr.setVisible(true);
     }//GEN-LAST:event_AddActionPerformed
 
@@ -317,7 +317,7 @@ public class MovieDetails extends javax.swing.JFrame {
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         if(sRow == Table.getSelectedRow()){
-            MovieRecord mr = new MovieRecord(Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
+            MovieRecord mr = new MovieRecord(MOVIE, Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
             mr.setVisible(true);
             sRow = -1;
         }else sRow = Table.getSelectedRow();

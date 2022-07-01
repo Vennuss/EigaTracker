@@ -80,6 +80,7 @@ public class MainMenu extends javax.swing.JFrame {
         ExportXML = new javax.swing.JMenuItem();
         MEdit = new javax.swing.JMenu();
         EditDelete = new javax.swing.JMenuItem();
+        EditAdd = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         CreatorInfo = new javax.swing.JMenuItem();
 
@@ -503,9 +504,11 @@ public class MainMenu extends javax.swing.JFrame {
         MFile.setText("File");
 
         ImportXML.setText("Import XML");
+        ImportXML.setEnabled(false);
         MFile.add(ImportXML);
 
         ExportXML.setText("Export XML");
+        ExportXML.setEnabled(false);
         MFile.add(ExportXML);
 
         jMenuBar1.add(MFile);
@@ -513,7 +516,20 @@ public class MainMenu extends javax.swing.JFrame {
         MEdit.setText("Edit");
 
         EditDelete.setText("Delete");
+        EditDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditDeleteActionPerformed(evt);
+            }
+        });
         MEdit.add(EditDelete);
+
+        EditAdd.setText("Add");
+        EditAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditAddActionPerformed(evt);
+            }
+        });
+        MEdit.add(EditAdd);
 
         jMenuBar1.add(MEdit);
 
@@ -597,7 +613,7 @@ public class MainMenu extends javax.swing.JFrame {
                 if(tipo == 0) bd.sentencia("delete from peliculas where nombre = '" + nombre + "';");
                 else bd.sentencia("delete from series where nombre = '" + nombre + "';");
             }
-        }else JOptionPane.showMessageDialog(rootPane, "Select a row to delete.");
+        }else JOptionPane.showMessageDialog(rootPane, "Select a row to delete.", "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_RemoveButtonActionPerformed
 
     private void CreatorInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatorInfoActionPerformed
@@ -645,6 +661,24 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jPanel2ComponentShown
 
+    private void EditDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditDeleteActionPerformed
+        if(ContentTable.getSelectedRow() != -1){
+            int tipo = 0;
+            if(ContentTable.getValueAt(ContentTable.getSelectedRow(), 1) == "Serie") tipo = 1;
+            String nombre = String.valueOf(ContentTable.getValueAt(ContentTable.getSelectedRow(), 0));
+            int conf = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete '" + nombre + "'", "Delete", JOptionPane.OK_CANCEL_OPTION);
+            if(conf == 0){
+                if(tipo == 0) bd.sentencia("delete from peliculas where nombre = '" + nombre + "';");
+                else bd.sentencia("delete from series where nombre = '" + nombre + "';");
+            }
+        }else JOptionPane.showMessageDialog(rootPane, "Select a row to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_EditDeleteActionPerformed
+
+    private void EditAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditAddActionPerformed
+        AddWindow addw = new AddWindow();
+        addw.setVisible(true);
+    }//GEN-LAST:event_EditAddActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -687,6 +721,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JRadioButton BothRb;
     private javax.swing.JTable ContentTable;
     private javax.swing.JMenuItem CreatorInfo;
+    private javax.swing.JMenuItem EditAdd;
     private javax.swing.JMenuItem EditDelete;
     private javax.swing.JMenuItem ExportXML;
     private javax.swing.JMenuItem ImportXML;
@@ -809,7 +844,7 @@ public class MainMenu extends javax.swing.JFrame {
         tm.setRowCount(0);
         
         try {
-            String sql = "select nombre, max(vistas) as 'vistas' from (select count(*) as 'vistas', pelicula_ref as 'nombre' from registros_peliculas group by pelicula_ref) as deribada;";
+            String sql = "select nombre, vistas from (select pelicula_ref as 'nombre', count(*) as 'vistas' from registros_peliculas group by pelicula_ref) as deribada2 having vistas = (select max(vistas) from (select count(*) as 'vistas' from registros_peliculas group by pelicula_ref) as deribada);";
             ResultSet rs = bd.consulta(sql);
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
