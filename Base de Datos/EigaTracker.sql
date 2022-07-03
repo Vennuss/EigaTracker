@@ -18,8 +18,8 @@ id int null auto_increment primary key,
 notas text null,
 conocida bool default false,
 capitulo int(2) not null,
-serie VARCHAR(250) not null,
 temporada int(1) default 1,
+serie VARCHAR(250) not null,
 foreign key (serie) references series(nombre)
 on update cascade on delete cascade
 );

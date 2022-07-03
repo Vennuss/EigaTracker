@@ -15,11 +15,12 @@ public class BD {
     private static final String PASS = "";
     private Connection con;
     private Statement st;
+    Process PROCESS_SQL;
     
     
     public void startXampp() {
         try {
-            Process PROCESS_SQL = Runtime.getRuntime().exec("D:\\XAMPP\\xampp_start.exe");
+            PROCESS_SQL = Runtime.getRuntime().exec("D:\\XAMPP\\xampp_start.exe");
             Thread.sleep(1000);
             }
         catch (InterruptedException | IOException ex) {
@@ -27,6 +28,10 @@ public class BD {
             System.out.println(ex.getMessage());
             System.exit(0);
         }
+    }
+    
+    public void stopXampp(){
+        PROCESS_SQL.destroy();
     }
     
     /**

@@ -1,7 +1,6 @@
 package eigatracker;
 
 import java.awt.Image;
-import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +24,16 @@ public class MainMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     public MainMenu() {
-        initComponents();
-        bd.startXampp();
-        refrescarCT();
-        setImagenes();
+        try{
+            initComponents();
+            bd.startXampp();
+            refrescarCT();
+            setImagenes();
+        }
+        catch(Exception ex){
+          bd.stopXampp();
+          System.exit(1);
+        }
     }
 
     /**
@@ -80,6 +85,7 @@ public class MainMenu extends javax.swing.JFrame {
         MFile = new javax.swing.JMenu();
         ImportXML = new javax.swing.JMenuItem();
         ExportXML = new javax.swing.JMenuItem();
+        Exit = new javax.swing.JMenuItem();
         MEdit = new javax.swing.JMenu();
         EditDelete = new javax.swing.JMenuItem();
         EditAdd = new javax.swing.JMenuItem();
@@ -513,6 +519,14 @@ public class MainMenu extends javax.swing.JFrame {
         ExportXML.setEnabled(false);
         MFile.add(ExportXML);
 
+        Exit.setText("Exit");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
+        MFile.add(Exit);
+
         jMenuBar1.add(MFile);
 
         MEdit.setText("Edit");
@@ -681,6 +695,11 @@ public class MainMenu extends javax.swing.JFrame {
         addw.setVisible(true);
     }//GEN-LAST:event_EditAddActionPerformed
 
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        bd.stopXampp();
+        System.exit(0);
+    }//GEN-LAST:event_ExitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -725,6 +744,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem CreatorInfo;
     private javax.swing.JMenuItem EditAdd;
     private javax.swing.JMenuItem EditDelete;
+    private javax.swing.JMenuItem Exit;
     private javax.swing.JMenuItem ExportXML;
     private javax.swing.JMenuItem ImportXML;
     private javax.swing.JLabel MCPelicula;
@@ -802,7 +822,7 @@ public class MainMenu extends javax.swing.JFrame {
                         rs2.close();
                     }
                     case 1 -> {
-                        rs2 = bd.consulta("select count(*) as vistas from registros_capitulos where capitulo_ref = (select id from capitulos where serie = '" + nombre + "');");
+                        rs2 = bd.consulta("select count(*) as 'vistas' from registros_capitulos where capitulo_ref in (select id from capitulos where serie = '" + nombre + "');");
 //                        vistas = rs2.getInt("vistas");
                         while (rs2.next()) {
                             vistas = rs2.getInt("vistas");
