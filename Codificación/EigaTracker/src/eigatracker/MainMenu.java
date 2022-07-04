@@ -26,9 +26,7 @@ public class MainMenu extends javax.swing.JFrame {
     public MainMenu() {
         try{
             initComponents();
-            bd.startXampp();
-            refrescarCT();
-            setImagenes();
+            FM fm = new FM(this);
         }
         catch(Exception ex){
           bd.stopXampp();
@@ -85,6 +83,8 @@ public class MainMenu extends javax.swing.JFrame {
         MFile = new javax.swing.JMenu();
         ImportXML = new javax.swing.JMenuItem();
         ExportXML = new javax.swing.JMenuItem();
+        ImportSQL = new javax.swing.JMenuItem();
+        ExportSQL = new javax.swing.JMenuItem();
         Exit = new javax.swing.JMenuItem();
         MEdit = new javax.swing.JMenu();
         EditDelete = new javax.swing.JMenuItem();
@@ -519,6 +519,19 @@ public class MainMenu extends javax.swing.JFrame {
         ExportXML.setEnabled(false);
         MFile.add(ExportXML);
 
+        ImportSQL.setText("Import SQL");
+        ImportSQL.setEnabled(false);
+        ImportSQL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImportSQLActionPerformed(evt);
+            }
+        });
+        MFile.add(ImportSQL);
+
+        ExportSQL.setText("Export SQL");
+        ExportSQL.setEnabled(false);
+        MFile.add(ExportSQL);
+
         Exit.setText("Exit");
         Exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -700,6 +713,11 @@ public class MainMenu extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_ExitActionPerformed
 
+    private void ImportSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportSQLActionPerformed
+        SelectRoute sr = new SelectRoute(this, "SQL");
+        sr.setVisible(true);
+    }//GEN-LAST:event_ImportSQLActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -745,7 +763,9 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem EditAdd;
     private javax.swing.JMenuItem EditDelete;
     private javax.swing.JMenuItem Exit;
+    private javax.swing.JMenuItem ExportSQL;
     private javax.swing.JMenuItem ExportXML;
+    private javax.swing.JMenuItem ImportSQL;
     private javax.swing.JMenuItem ImportXML;
     private javax.swing.JLabel MCPelicula;
     private javax.swing.JLabel MCSerie;
@@ -942,6 +962,17 @@ public class MainMenu extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
             return "Error";
         }
+    }
+    
+    public void StartUP(final String[] _options){
+        bd.StartUp(_options);
+        refrescarCT();
+        setImagenes();
+    }
+    
+    public void importSql(final String _path){
+        bd.sentencia("source " + _path);
+        System.out.println("source " + _path);
     }
     
 }

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Clase que se encarga de toda la logica en la base de datos
@@ -13,6 +14,8 @@ public class BD {
     private static final String URL = "jdbc:mysql://localhost:3306/eigatracker?zeroDateTimeBehavior=CONVERT_TO_NULL";
     private static final String USER = "root";
     private static final String PASS = "";
+    private static String XAMPP;
+    private static int STARTUPTIME;
     private Connection con;
     private Statement st;
     Process PROCESS_SQL;
@@ -20,12 +23,15 @@ public class BD {
     
     public void startXampp() {
         try {
-            PROCESS_SQL = Runtime.getRuntime().exec("D:\\XAMPP\\xampp_start.exe");
-            Thread.sleep(1000);
+            PROCESS_SQL = Runtime.getRuntime().exec(XAMPP + "\\xampp_start.exe");
+            Thread.sleep(STARTUPTIME);
             }
         catch (InterruptedException | IOException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Please set the correct Xampp path at 'Options\\Options.txt'."
+                    + "\nPlease set a correct amount of milliseconds."
+                    + "\nDelete file for Default Options.", "XAMPP ERROR", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
@@ -94,6 +100,12 @@ public class BD {
             Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
+    }
+    
+    public void StartUp(final String[] _Options){
+        XAMPP = _Options[0];
+        STARTUPTIME = Integer.parseInt(_Options[1]);
+        startXampp();
     }
     
 }

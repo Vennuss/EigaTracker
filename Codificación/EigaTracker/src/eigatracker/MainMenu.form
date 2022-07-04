@@ -23,6 +23,21 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="ImportSQL">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Import SQL"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImportSQLActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="ExportSQL">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Export SQL"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="Exit">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Exit"/>
