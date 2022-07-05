@@ -18,12 +18,12 @@ public class BD {
     private static int STARTUPTIME;
     private Connection con;
     private Statement st;
-    Process PROCESS_SQL;
+    Process PROCESS_XAMPP;
     
     
     public void startXampp() {
         try {
-            PROCESS_SQL = Runtime.getRuntime().exec(XAMPP + "\\xampp_start.exe");
+            PROCESS_XAMPP = Runtime.getRuntime().exec(XAMPP + "\\xampp_start.exe");
             Thread.sleep(STARTUPTIME);
             }
         catch (InterruptedException | IOException ex) {
@@ -38,7 +38,7 @@ public class BD {
     }
     
     public void stopXampp(){
-        PROCESS_SQL.destroy();
+        PROCESS_XAMPP.destroy();
     }
     
     /**

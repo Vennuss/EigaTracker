@@ -21,9 +21,7 @@ public class FM {
         String[] ops = new String[2];
         try{
             ops[0] = ReadLine(Options, 1);
-            System.out.println("1: " + ops[0] + " | " + ReadLine(Options, 0));
             ops[1] = ReadLine(Options, 3);
-            System.out.println("2: " + ops[1] + " | " + ReadLine(Options, 2));
         }
         catch(Exception ex){
             System.exit(1);
@@ -121,7 +119,6 @@ public class FM {
             while(sc.hasNextLine()){
                 i++;
                 sc.nextLine();
-                System.out.println(i);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);

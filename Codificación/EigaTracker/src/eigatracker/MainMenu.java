@@ -1,6 +1,9 @@
 package eigatracker;
 
+import java.awt.Desktop;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,6 +88,7 @@ public class MainMenu extends javax.swing.JFrame {
         ExportXML = new javax.swing.JMenuItem();
         ImportSQL = new javax.swing.JMenuItem();
         ExportSQL = new javax.swing.JMenuItem();
+        EOptions = new javax.swing.JMenuItem();
         Exit = new javax.swing.JMenuItem();
         MEdit = new javax.swing.JMenu();
         EditDelete = new javax.swing.JMenuItem();
@@ -104,6 +108,12 @@ public class MainMenu extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -532,6 +542,14 @@ public class MainMenu extends javax.swing.JFrame {
         ExportSQL.setEnabled(false);
         MFile.add(ExportSQL);
 
+        EOptions.setText("Open Options.txt");
+        EOptions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EOptionsActionPerformed(evt);
+            }
+        });
+        MFile.add(EOptions);
+
         Exit.setText("Exit");
         Exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -718,6 +736,26 @@ public class MainMenu extends javax.swing.JFrame {
         sr.setVisible(true);
     }//GEN-LAST:event_ImportSQLActionPerformed
 
+    private void EOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EOptionsActionPerformed
+        File f = new File("src\\Options\\Options.txt");
+        Desktop desktop = Desktop.getDesktop();
+        if(f.exists()) try {
+            desktop.open(f);
+        } catch (IOException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_EOptionsActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        bd.stopXampp();
+        System.out.println("Bye bye!");
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -760,6 +798,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JRadioButton BothRb;
     private javax.swing.JTable ContentTable;
     private javax.swing.JMenuItem CreatorInfo;
+    private javax.swing.JMenuItem EOptions;
     private javax.swing.JMenuItem EditAdd;
     private javax.swing.JMenuItem EditDelete;
     private javax.swing.JMenuItem Exit;
