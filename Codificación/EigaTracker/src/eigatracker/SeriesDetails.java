@@ -14,20 +14,20 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Vennuss
  */
-public class MovieDetails extends javax.swing.JFrame {
+public class SeriesDetails extends javax.swing.JFrame {
     
     private BD bd = new BD();
-    private String MOVIE;
+    private String SERIES;
     private int sRow = -1;
     
     /**
      * Creates new form MovieDetails
-     * @param _movie
+     * @param _serie
      */
-    public MovieDetails(final String _movie) {
+    public SeriesDetails(final String _serie) {
         initComponents();
-        MOVIE = _movie;
-        Name.setText(MOVIE);
+        SERIES = _serie;
+        Name.setText(SERIES);
         start();
     }
 
@@ -41,8 +41,6 @@ public class MovieDetails extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        Known = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Notes = new javax.swing.JTextArea();
@@ -79,20 +77,6 @@ public class MovieDetails extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Name");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Known");
-
-        Known.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Known.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Known.setMaximumSize(new java.awt.Dimension(25, 25));
-        Known.setMinimumSize(new java.awt.Dimension(25, 25));
-        Known.setPreferredSize(new java.awt.Dimension(25, 25));
-        Known.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                KnownActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Notes");
 
@@ -107,25 +91,22 @@ public class MovieDetails extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Notes);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Records");
+        jLabel4.setText("Chapters");
 
         Table.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Id", "Comprehesion", "Fun", "Date Time"
+                "Chapter", "Seasson", "Views"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -204,12 +185,9 @@ public class MovieDetails extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(Name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Known, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Name, javax.swing.GroupLayout.PREFERRED_SIZE, 939, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,12 +223,9 @@ public class MovieDetails extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Known, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)
-                        .addComponent(Name)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(Name))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -287,21 +262,19 @@ public class MovieDetails extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void KnownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KnownActionPerformed
-        bd.sentencia("update peliculas set conocida = " + Known.isSelected() + " where nombre = '" + MOVIE + "';");
-    }//GEN-LAST:event_KnownActionPerformed
-
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
-        MovieRecord mr = new MovieRecord(MOVIE);
-        mr.setVisible(true);
+//        ChapterDetails cd = new ChapterDetails(Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
+//        cd.setVisible(true);
     }//GEN-LAST:event_AddActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
         if(Table.getSelectedRow() != -1){
-            String id = String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0));
-            int conf = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete the record '" + id + "'?", "Delete", JOptionPane.OK_CANCEL_OPTION);
+            String capitulo = String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0));
+            String seasson = String.valueOf(Table.getValueAt(Table.getSelectedRow(), 1));
+            int id = consultarInt("select id from capitulos where serie = '" + SERIES + "' and capitulo = " + capitulo + " and temporada = " + seasson + ";", "id");
+            int conf = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete (chapter " + capitulo + " seasson " + seasson + ")  and all of its records?", "Delete", JOptionPane.OK_CANCEL_OPTION);
             if(conf == 0){
-                bd.sentencia("delete from registros_peliculas where id = " + id + ";");
+                bd.sentencia("delete from capitulos where id = " + Integer.toString(id) + ";");
                 start();
             }
         }else JOptionPane.showMessageDialog(rootPane, "Select a row to delete.");
@@ -312,13 +285,17 @@ public class MovieDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentShown
 
     private void NotesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NotesKeyTyped
-        bd.sentencia("update peliculas set notas = '" + Notes.getText() + "' where nombre = '" + MOVIE + "';");
+        bd.sentencia("update series set notas = '" + Notes.getText() + "' where nombre = '" + SERIES + "';");
+        System.out.println("updated");
     }//GEN-LAST:event_NotesKeyTyped
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         if(sRow == Table.getSelectedRow()){
-            MovieRecord mr = new MovieRecord(MOVIE, Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
-            mr.setVisible(true);
+            String capitulo = String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0));
+            String seasson = String.valueOf(Table.getValueAt(Table.getSelectedRow(), 1));
+            int id = consultarInt("select id from capitulos where serie = '" + SERIES + "' and capitulo = " + capitulo + " and temporada = " + seasson + ";", "id");
+            ChapterDetails cd = new ChapterDetails(id);
+            cd.setVisible(true);
             sRow = -1;
         }else sRow = Table.getSelectedRow();
     }//GEN-LAST:event_TableMouseClicked
@@ -344,20 +321,21 @@ public class MovieDetails extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeriesDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeriesDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeriesDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeriesDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MovieDetails("Kung-fu Panda 1").setVisible(true);
+                new SeriesDetails("Friends").setVisible(true);
             }
         });
     }
@@ -367,7 +345,6 @@ public class MovieDetails extends javax.swing.JFrame {
     private javax.swing.JLabel AvgC;
     private javax.swing.JLabel AvgF;
     private javax.swing.JButton Delete;
-    private javax.swing.JCheckBox Known;
     private javax.swing.JLabel Last;
     private javax.swing.JLabel MostC;
     private javax.swing.JLabel MostF;
@@ -377,7 +354,6 @@ public class MovieDetails extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -401,16 +377,15 @@ public class MovieDetails extends javax.swing.JFrame {
     
     private void start(){
         setImagenes();
-        Notes.setText(consultarString("select notas from peliculas where nombre = '" + MOVIE + "';", "notas"));
+        Notes.setText(consultarString("select notas from series where nombre = '" + SERIES + "';", "notas"));
         refreshTable();
-        AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "comp")) + "%");
-        AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "fun")) + "%");
-        MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "comp")) + "%");
-        MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "fun")) + "%");
-        Last.setText(consultarString("select fecha from registros_peliculas where pelicula_ref = '" + MOVIE + "' order by fecha desc limit 1 ;", "fecha"));
-        Known.setSelected(consultarBool("select conocida from peliculas where nombre = '" + MOVIE + "';", "conocida"));
+        AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_capitulos where capitulo_ref in (select id from capitulos where serie = '" + SERIES + "') limit 1;", "comp")) + "%");
+        AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_capitulos where capitulo_ref in (select id from capitulos where serie = '" + SERIES + "') limit 1;", "fun")) + "%");
+        MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_capitulos where capitulo_ref in (select id from capitulos where serie = '" + SERIES + "') limit 1;", "comp")) + "%");
+        MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_capitulos where capitulo_ref in (select id from capitulos where serie = '" + SERIES + "') limit 1;", "fun")) + "%");
+        Last.setText(consultarString("select fecha from registros_capitulos where capitulo_ref in (select id from capitulos where serie = '" + SERIES + "') order by fecha desc limit 1 ;", "fecha"));
     }
-
+    
     private void refreshTable(){
         try {
             DefaultTableModel tm = (DefaultTableModel) Table.getModel();
@@ -418,19 +393,19 @@ public class MovieDetails extends javax.swing.JFrame {
             
             tm.setRowCount(0);
             
-            String sql = "select * from registros_peliculas where pelicula_ref = '" + MOVIE + "';";
+            String sql = "select * from capitulos where serie = '" + SERIES + "';";
             ResultSet rs = bd.consulta(sql);
             while(rs.next()){
+                int capitulo = rs.getInt("capitulo");
+                int temporada = rs.getInt("temporada");
                 int id = rs.getInt("id");
-                int comp = rs.getInt("comprension");
-                int fun = rs.getInt("diversion");
-                String time = rs.getString("fecha");
-                Object nuev[] = {id, comp, fun, time};
+                int views = consultarInt("select count(*) as 'views' from registros_capitulos where capitulo_ref = " + id + ";", "views");
+                Object nuev[] = {capitulo, temporada, views};
                 tm.addRow(nuev);
             }
             bd.cerrarConexion();
         } catch (SQLException ex) {
-            Logger.getLogger(MovieDetails.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SeriesDetails.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
     }
@@ -469,12 +444,12 @@ public class MovieDetails extends javax.swing.JFrame {
         }
     }
     
-    private boolean consultarBool(final String _sql, final String _valor){
+    private int consultarInt(final String _sql, final String _valor){
         ResultSet rs = bd.consulta(_sql);
         try {
-            boolean r = false;
+            int r = 0;
             while(rs.next()){
-                r = rs.getBoolean(_valor);
+                r = rs.getInt(_valor);
                 break;
             }
             bd.cerrarConexion();
@@ -482,7 +457,8 @@ public class MovieDetails extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
-            return false;
+            return 0;
         }
     }
+    
 }

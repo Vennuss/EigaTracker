@@ -675,7 +675,9 @@ public class MainMenu extends javax.swing.JFrame {
                 sRow = -1;
             }
             else{
-                System.out.println("Detalles Serie");
+                SeriesDetails sd = new SeriesDetails(String.valueOf(ContentTable.getValueAt(ContentTable.getSelectedRow(), 0)));
+                sd.setVisible(true);
+                sRow = -1;;
             }
         }else sRow = ContentTable.getSelectedRow();
     }//GEN-LAST:event_ContentTableMouseClicked

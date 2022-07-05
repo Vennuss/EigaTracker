@@ -14,20 +14,23 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Vennuss
  */
-public class MovieDetails extends javax.swing.JFrame {
+public class ChapterDetails extends javax.swing.JFrame {
     
     private BD bd = new BD();
-    private String MOVIE;
+    private int ID;
     private int sRow = -1;
     
     /**
      * Creates new form MovieDetails
-     * @param _movie
+     * @param _chapter
      */
-    public MovieDetails(final String _movie) {
+    public ChapterDetails(final int _chapter) {
         initComponents();
-        MOVIE = _movie;
-        Name.setText(MOVIE);
+        ID = _chapter;
+        String nombre = "CHAPTER " + consultarInt("select capitulo from capitulos where id = " + ID + ";", "capitulo") 
+                + ", SEASSON " + consultarInt("select temporada from capitulos where id = " + ID + ";", "temporada")
+                + " FROM " + consultarString("select serie from capitulos where id = " + ID + ";", "serie");
+        Name.setText(nombre);
         start();
     }
 
@@ -288,12 +291,12 @@ public class MovieDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void KnownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KnownActionPerformed
-        bd.sentencia("update peliculas set conocida = " + Known.isSelected() + " where nombre = '" + MOVIE + "';");
+        bd.sentencia("update capitulos set conocida = " + Known.isSelected() + " where id = " + ID + ";");
     }//GEN-LAST:event_KnownActionPerformed
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
-        MovieRecord mr = new MovieRecord(MOVIE);
-        mr.setVisible(true);
+//        MovieRecord mr = new MovieRecord(ID);
+//        mr.setVisible(true);
     }//GEN-LAST:event_AddActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
@@ -301,7 +304,7 @@ public class MovieDetails extends javax.swing.JFrame {
             String id = String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0));
             int conf = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete the record '" + id + "'?", "Delete", JOptionPane.OK_CANCEL_OPTION);
             if(conf == 0){
-                bd.sentencia("delete from registros_peliculas where id = " + id + ";");
+                bd.sentencia("delete from registros_capitulos where id = " + id + ";");
                 start();
             }
         }else JOptionPane.showMessageDialog(rootPane, "Select a row to delete.");
@@ -312,13 +315,13 @@ public class MovieDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentShown
 
     private void NotesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NotesKeyTyped
-        bd.sentencia("update peliculas set notas = '" + Notes.getText() + "' where nombre = '" + MOVIE + "';");
+        bd.sentencia("update capitulos set notas = '" + Notes.getText() + "' where id = '" + ID + "';");
     }//GEN-LAST:event_NotesKeyTyped
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         if(sRow == Table.getSelectedRow()){
-            MovieRecord mr = new MovieRecord(MOVIE, Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
-            mr.setVisible(true);
+//            MovieRecord mr = new MovieRecord(ID, Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
+//            mr.setVisible(true);
             sRow = -1;
         }else sRow = Table.getSelectedRow();
     }//GEN-LAST:event_TableMouseClicked
@@ -344,20 +347,21 @@ public class MovieDetails extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChapterDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChapterDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChapterDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MovieDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChapterDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MovieDetails("Kung-fu Panda 1").setVisible(true);
+                new ChapterDetails(2).setVisible(true);
             }
         });
     }
@@ -399,18 +403,18 @@ public class MovieDetails extends javax.swing.JFrame {
         _boton.setIcon(icono);
     }
     
-    private void start(){
+    private void start() {
         setImagenes();
-        Notes.setText(consultarString("select notas from peliculas where nombre = '" + MOVIE + "';", "notas"));
+        Notes.setText(consultarString("select notas from capitulos where id = " + ID + ";", "notas"));
         refreshTable();
-        AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "comp")) + "%");
-        AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "fun")) + "%");
-        MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "comp")) + "%");
-        MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_peliculas where pelicula_ref = '" + MOVIE + "';", "fun")) + "%");
-        Last.setText(consultarString("select fecha from registros_peliculas where pelicula_ref = '" + MOVIE + "' order by fecha desc limit 1 ;", "fecha"));
-        Known.setSelected(consultarBool("select conocida from peliculas where nombre = '" + MOVIE + "';", "conocida"));
+        AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_capitulos where id = " + ID + ";", "comp")) + "%");
+        AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_capitulos where id = " + ID + ";", "fun")) + "%");
+        MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_capitulos where id = " + ID + ";", "comp")) + "%");
+        MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_capitulos where id = " + ID + ";", "fun")) + "%");
+        Last.setText(consultarString("select fecha from registros_capitulos where id = " + ID + " order by fecha desc limit 1 ;", "fecha"));
+        Known.setSelected(consultarBool("select conocida from capitulos where id = " + ID + ";", "conocida"));
     }
-
+    
     private void refreshTable(){
         try {
             DefaultTableModel tm = (DefaultTableModel) Table.getModel();
@@ -418,7 +422,7 @@ public class MovieDetails extends javax.swing.JFrame {
             
             tm.setRowCount(0);
             
-            String sql = "select * from registros_peliculas where pelicula_ref = '" + MOVIE + "';";
+            String sql = "select * from registros_capitulos where id = " + ID + ";";
             ResultSet rs = bd.consulta(sql);
             while(rs.next()){
                 int id = rs.getInt("id");
@@ -430,7 +434,7 @@ public class MovieDetails extends javax.swing.JFrame {
             }
             bd.cerrarConexion();
         } catch (SQLException ex) {
-            Logger.getLogger(MovieDetails.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChapterDetails.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
     }
@@ -466,6 +470,23 @@ public class MovieDetails extends javax.swing.JFrame {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
             return "Error";
+        }
+    }
+    
+    private int consultarInt(final String _sql, final String _valor){
+        ResultSet rs = bd.consulta(_sql);
+        try {
+            int r = 0;
+            while(rs.next()){
+                r = rs.getInt(_valor);
+                break;
+            }
+            bd.cerrarConexion();
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            return 0;
         }
     }
     
