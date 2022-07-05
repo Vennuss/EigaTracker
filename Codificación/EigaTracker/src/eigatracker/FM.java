@@ -17,6 +17,7 @@ public class FM {
     public FM(final MainMenu mm){
         File Options = new File("src\\Options\\Options.txt");
         if(!Options.exists()) Write(Options, "[XAMPP PATH]\nC:\\xampp\n[START UP DELAY]\n1000", false);
+        else OptionsStructureFixer();
         String[] ops = new String[2];
         try{
             ops[0] = ReadLine(Options, 1);
@@ -32,9 +33,9 @@ public class FM {
     
     public FM(){}
     
-    public void Write(final File _f, final String _text, final boolean _overWrite){
+    public void Write(final File _f, final String _text, final boolean _append){
         try {
-            FileWriter fw = new FileWriter(_f, _overWrite);
+            FileWriter fw = new FileWriter(_f, _append);
             fw.write(_text);
             fw.close();
         } catch (IOException ex) {
@@ -55,6 +56,28 @@ public class FM {
         }
     }
     
+    public void WriteLine(final File _f, final String _newLine, final int _l){
+        try {
+            Scanner sc = new Scanner(_f);
+            String text = "";
+            int i = 0;
+            while(sc.hasNextLine()){
+                if(i == _l) {
+                    text = text.concat(_newLine + "\n");
+                    sc.nextLine();
+                }
+                else text = text.concat(sc.nextLine() + "\n");
+                i++;
+            }
+            Write(_f, text, false);
+            sc.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            System.exit(1);
+        }
+    }
+    
     public String Read(final File _f){
         String text = "";
         try {
@@ -62,6 +85,7 @@ public class FM {
             while(sc.hasNextLine()){
                 text = text.concat(sc.nextLine()) + "\n";
             }
+            sc.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -80,6 +104,7 @@ public class FM {
                     sc.nextLine();
                 }
             }
+            sc.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -88,24 +113,46 @@ public class FM {
         return "Error";
     }
     
-    public void WriteLine(final File _f, final String _newLine, final int _l){
+    private boolean SizeCheck(final File _f, final int _s){
+        Scanner sc;
+        int i = 0;
         try {
-            Scanner sc = new Scanner(_f);
-            String text = "";
-            int i = 0;
+            sc = new Scanner(_f);
             while(sc.hasNextLine()){
-                if(i == _l) {
-                    text = text.concat(_newLine + "\n");
-                    sc.nextLine();
-                }
-                else text = text.concat(sc.nextLine() + "\n");
                 i++;
+                sc.nextLine();
+                System.out.println(i);
             }
-            Write(_f, text, false);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
-            System.exit(1);
+        }
+        return i == _s;
+    }
+    
+    private void OptionsStructureFixer(){
+        File ops = new File("src\\Options\\Options.txt");
+        if(false == SizeCheck(ops, 4)){
+            try {
+                Scanner sc = new Scanner(ops);
+                String text = "";
+                String line;
+                while(sc.hasNextLine()){
+                    line = sc.nextLine();
+                    for(int i = 0; i < line.length(); i++){
+                        if(line.charAt(i) == ']')
+                            text = text.concat("]\n");
+                        else if(line.charAt(i) == '[' && i != 0)
+                            text = text.concat("\n[");
+                        else text = text.concat(Character.toString(line.charAt(i)));
+                    }
+                }
+                Write(ops, text, false);
+                sc.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
+            }
         }
     }
     
