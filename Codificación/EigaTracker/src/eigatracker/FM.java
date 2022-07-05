@@ -137,14 +137,18 @@ public class FM {
                 Scanner sc = new Scanner(ops);
                 String text = "";
                 String line;
+                int n = 0;
                 while(sc.hasNextLine()){
                     line = sc.nextLine();
-                    for(int i = 0; i < line.length(); i++){
-                        if(line.charAt(i) == ']')
-                            text = text.concat("]\n");
-                        else if(line.charAt(i) == '[' && i != 0)
-                            text = text.concat("\n[");
-                        else text = text.concat(Character.toString(line.charAt(i)));
+                    if(!line.isBlank()){
+                        for(int i = 0; i < line.length(); i++){
+                            if(line.charAt(i) == ']')
+                                text = text.concat("]\n");
+                            else if(line.charAt(i) == '[' && n != 0)
+                                text = text.concat("\n[");
+                            else text = text.concat(Character.toString(line.charAt(i)));
+                        }
+                        n++;
                     }
                 }
                 Write(ops, text, false);
