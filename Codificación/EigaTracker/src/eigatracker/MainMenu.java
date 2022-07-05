@@ -29,8 +29,8 @@ public class MainMenu extends javax.swing.JFrame {
             FM fm = new FM(this);
         }
         catch(Exception ex){
-          bd.stopXampp();
-          System.exit(1);
+            bd.stopXampp();
+            System.exit(1);
         }
     }
 

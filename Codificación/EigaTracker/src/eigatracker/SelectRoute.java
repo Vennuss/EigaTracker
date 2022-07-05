@@ -1,19 +1,29 @@
 package eigatracker;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author hugse
  */
 public class SelectRoute extends javax.swing.JFrame {
 
-    final MainMenu mm;
+    private MainMenu mm = null;
+    private int opt = -1;
     
     /**
      * Creates new form SelectRoute
      */
     public SelectRoute() {
         initComponents();
-        mm = null;
+    }
+    
+    public SelectRoute(final int _opt, final String _TITLE) {
+        initComponents();
+        opt = _opt;
+        TitleText.setText("Choose " + _TITLE);
+        FChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     }
     
     public SelectRoute(final MainMenu _mm, final String _TITLE) {
@@ -35,46 +45,54 @@ public class SelectRoute extends javax.swing.JFrame {
         FChooser = new javax.swing.JFileChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("File Chooser");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setMinimumSize(new java.awt.Dimension(506, 370));
 
         TitleText.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         TitleText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TitleText.setText("Select");
 
-        FChooser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FChooserActionPerformed(evt);
-            }
-        });
+        FChooser.setCurrentDirectory(new java.io.File("C:\\"));
+            FChooser.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    FChooserActionPerformed(evt);
+                }
+            });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TitleText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(FChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(TitleText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(FChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(FChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(TitleText, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(TitleText)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(FChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
 
     private void FChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FChooserActionPerformed
-        if(FChooser.getSelectedFile() != null)
-        mm.importSql(String.valueOf(FChooser.getSelectedFile().getAbsoluteFile()));
+        if(FChooser.getSelectedFile() != null){
+            if(mm != null) mm.importSql(String.valueOf(FChooser.getSelectedFile().getAbsoluteFile()));
+            else if(opt == 0){
+                FM fm = new FM();
+                fm.WriteLine(new File("src\\Options\\Options.txt"), FChooser.getSelectedFile().getAbsolutePath(), 1);
+                System.exit(0);
+            }
+        }else{
+            if(opt == 0) System.exit(0);
+        }
         dispose();
     }//GEN-LAST:event_FChooserActionPerformed
 

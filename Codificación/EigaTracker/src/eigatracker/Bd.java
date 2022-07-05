@@ -32,7 +32,8 @@ public class BD {
             JOptionPane.showMessageDialog(null, "Please set the correct Xampp path at 'Options\\Options.txt'."
                     + "\nPlease set a correct amount of milliseconds."
                     + "\nDelete file for Default Options.", "XAMPP ERROR", JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
+            SelectRoute sr = new SelectRoute(0, " XAMPP ROUTE");
+            sr.setVisible(true);
         }
     }
     

@@ -1,4 +1,4 @@
 [XAMPP PATH]
 C:\xampp
 [START UP DELAY]
-2000
+1000
