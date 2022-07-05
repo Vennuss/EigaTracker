@@ -1,7 +1,5 @@
 package eigatracker;
 
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,15 +12,24 @@ import javax.swing.JOptionPane;
 public class ChapterRecord extends javax.swing.JFrame {
 
     BD bd = new BD();
-    final private int ID;
+    final private int IDCAP;
+    final private int IDREG;
     
     /**
      * Creates new form MovieRecord
      * @param _name
      */
-    public ChapterRecord(final int _name) {
+    public ChapterRecord(final int _cap) {
         initComponents();
-        ID = -1;
+        IDCAP = _cap;
+        IDREG = -1;
+        start();
+    }
+    
+    public ChapterRecord(final int _cap, final int _reg) {
+        initComponents();
+        IDCAP = _cap;
+        IDREG = _reg;
         start();
     }
 
@@ -63,7 +70,7 @@ public class ChapterRecord extends javax.swing.JFrame {
         setTitle("Movie Record");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Movie");
+        jLabel1.setText("Chapter");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Comprehension");
@@ -250,13 +257,13 @@ public class ChapterRecord extends javax.swing.JFrame {
 
     private void ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonActionPerformed
         String sql = "";
-        if (ID == -1) {
+        if (IDREG == -1) {
             if (!Check.isSelected()) {
                 sql = "insert into registros_capitulos (notas,comprension,diversion,capitulo_ref) "
-                        + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + ID + "');";
+                        + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + IDCAP + "');";
             } else {
                 sql = "insert into registros_capitulos (notas,comprension,diversion,capitulo_ref, fecha) "
-                        + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + ID + "', '"
+                        + "values('" + Notes.getText() + "', " + String.valueOf(Comp.getValue()) + ", " + String.valueOf(Fun.getValue()) + ", '" + IDCAP + "', '"
                         + String.valueOf(Year.getValue()) + "/" + String.valueOf(Month.getValue()) + "/" + String.valueOf(Day.getValue()) + " "
                         + String.valueOf(Hour.getValue()) + ":" + String.valueOf(Minute.getValue()) + "');";
             }
@@ -265,10 +272,10 @@ public class ChapterRecord extends javax.swing.JFrame {
                 sql = "update registros_capitulos set notas = '" + Notes.getText() + "', comprension = " + String.valueOf(Comp.getValue()) + ", diversion = " + String.valueOf(Fun.getValue())
                         + ", fecha = '" + String.valueOf(Year.getValue()) + "/" + String.valueOf(Month.getValue()) + "/" + String.valueOf(Day.getValue()) + " "
                         + String.valueOf(Hour.getValue()) + ":" + String.valueOf(Minute.getValue())
-                        + "' where id = " + ID + ";";
+                        + "' where id = " + IDREG + ";";
             } else {
                 sql = "update registros_capitulos set notas = '" + Notes.getText() + "', comprension = " + String.valueOf(Comp.getValue()) + ", diversion = " + String.valueOf(Fun.getValue())
-                        + " where id = " + ID + ";";
+                        + " where id = " + IDREG + ";";
             }
         }
         dispose();
@@ -307,7 +314,7 @@ public class ChapterRecord extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ChapterRecord("Kung-fu Panda 1").setVisible(true);
+                new ChapterRecord(0).setVisible(true);
             }
         });
     }
@@ -340,13 +347,13 @@ public class ChapterRecord extends javax.swing.JFrame {
 
 
     private void start(){
-        Name.setText(NAME);
-        if(ID == -1) Button.setText("REGISTER");
+        Name.setText(Integer.toString(IDCAP));
+        if(IDREG == -1) Button.setText("REGISTER");
         else{
             Button.setText("UPDATE");
-            Comp.setValue(consultarInt("select comprension from registros_peliculas where id = " + ID + ";","comprension"));
-            Fun.setValue(consultarInt("select diversion from registros_peliculas where id = " + ID + ";","diversion"));
-            Notes.setText(consultarString("select notas from registros_peliculas where id = " + ID + ";","notas"));
+            Comp.setValue(consultarInt("select comprension from registros_capitulos where id = " + IDREG + ";","comprension"));
+            Fun.setValue(consultarInt("select diversion from registros_capitulos where id = " + IDREG + ";","diversion"));
+            Notes.setText(consultarString("select notas from registros_capitulos where id = " + IDREG + ";","notas"));
             
         }
     }

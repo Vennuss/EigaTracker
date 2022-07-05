@@ -295,8 +295,8 @@ public class ChapterDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_KnownActionPerformed
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
-//        MovieRecord mr = new MovieRecord(ID);
-//        mr.setVisible(true);
+        ChapterRecord cr = new ChapterRecord(ID);
+        cr.setVisible(true);
     }//GEN-LAST:event_AddActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
@@ -320,8 +320,8 @@ public class ChapterDetails extends javax.swing.JFrame {
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         if(sRow == Table.getSelectedRow()){
-//            MovieRecord mr = new MovieRecord(ID, Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
-//            mr.setVisible(true);
+            ChapterRecord cr = new ChapterRecord(ID, Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
+            cr.setVisible(true);
             sRow = -1;
         }else sRow = Table.getSelectedRow();
     }//GEN-LAST:event_TableMouseClicked
@@ -407,11 +407,11 @@ public class ChapterDetails extends javax.swing.JFrame {
         setImagenes();
         Notes.setText(consultarString("select notas from capitulos where id = " + ID + ";", "notas"));
         refreshTable();
-        AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_capitulos where id = " + ID + ";", "comp")) + "%");
-        AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_capitulos where id = " + ID + ";", "fun")) + "%");
-        MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_capitulos where id = " + ID + ";", "comp")) + "%");
-        MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_capitulos where id = " + ID + ";", "fun")) + "%");
-        Last.setText(consultarString("select fecha from registros_capitulos where id = " + ID + " order by fecha desc limit 1 ;", "fecha"));
+        AvgC.setText(Double.toString(consultarDouble("select avg(comprension) as 'comp' from registros_capitulos where capitulo_ref = " + ID + ";", "comp")) + "%");
+        AvgF.setText(Double.toString(consultarDouble("select avg(diversion) as 'fun' from registros_capitulos where capitulo_ref = " + ID + ";", "fun")) + "%");
+        MostC.setText(Double.toString(consultarDouble("select max(comprension) as 'comp' from registros_capitulos where capitulo_ref = " + ID + ";", "comp")) + "%");
+        MostF.setText(Double.toString(consultarDouble("select max(diversion) as 'fun' from registros_capitulos where capitulo_ref = " + ID + ";", "fun")) + "%");
+        Last.setText(consultarString("select fecha from registros_capitulos where capitulo_ref = " + ID + " order by fecha desc limit 1 ;", "fecha"));
         Known.setSelected(consultarBool("select conocida from capitulos where id = " + ID + ";", "conocida"));
     }
     
@@ -422,7 +422,7 @@ public class ChapterDetails extends javax.swing.JFrame {
             
             tm.setRowCount(0);
             
-            String sql = "select * from registros_capitulos where id = " + ID + ";";
+            String sql = "select * from registros_capitulos where capitulo_ref = " + ID + ";";
             ResultSet rs = bd.consulta(sql);
             while(rs.next()){
                 int id = rs.getInt("id");

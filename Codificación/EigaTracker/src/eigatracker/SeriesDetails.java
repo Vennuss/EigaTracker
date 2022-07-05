@@ -263,8 +263,8 @@ public class SeriesDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
-//        ChapterDetails cd = new ChapterDetails(Integer.valueOf(String.valueOf(Table.getValueAt(Table.getSelectedRow(), 0))));
-//        cd.setVisible(true);
+        AddWindow aw = new AddWindow(2);
+        aw.setVisible(true);
     }//GEN-LAST:event_AddActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed

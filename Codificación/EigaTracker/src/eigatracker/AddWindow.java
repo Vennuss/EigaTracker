@@ -18,6 +18,12 @@ public class AddWindow extends javax.swing.JFrame {
         initComponents();
         mostrarSeries();
     }
+    
+    public AddWindow(final int _opt) {
+        initComponents();
+        mostrarSeries();
+        Tabbed.setSelectedIndex(_opt);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,7 +34,7 @@ public class AddWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        Tabbed = new javax.swing.JTabbedPane();
         MoviePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         MovieName = new javax.swing.JTextField();
@@ -143,7 +149,7 @@ public class AddWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Movie", MoviePanel);
+        Tabbed.addTab("Movie", MoviePanel);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Name");
@@ -203,7 +209,7 @@ public class AddWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Series", SeriesPanel);
+        Tabbed.addTab("Series", SeriesPanel);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Chapter");
@@ -335,7 +341,7 @@ public class AddWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Chapter", ChapterPanel);
+        Tabbed.addTab("Chapter", ChapterPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -343,14 +349,14 @@ public class AddWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(Tabbed)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(Tabbed)
                 .addContainerGap())
         );
 
@@ -458,6 +464,7 @@ public class AddWindow extends javax.swing.JFrame {
     private javax.swing.JTextArea SeriesNotas;
     private javax.swing.JPanel SeriesPanel;
     private javax.swing.JTable SeriesTabla;
+    private javax.swing.JTabbedPane Tabbed;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -470,7 +477,6 @@ public class AddWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 
     private void mostrarSeries(){
