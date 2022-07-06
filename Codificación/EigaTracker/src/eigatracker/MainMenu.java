@@ -646,7 +646,11 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchBarActionPerformed
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-        AddWindow addw = new AddWindow();
+        AddWindow addw;
+        if(SeriesRb.isSelected())
+            addw = new AddWindow(1);
+        else
+            addw = new AddWindow(0);
         addw.setVisible(true);
     }//GEN-LAST:event_AddButtonActionPerformed
 

@@ -347,7 +347,17 @@ public class ChapterRecord extends javax.swing.JFrame {
 
 
     private void start(){
-        Name.setText(Integer.toString(IDCAP));
+        String nombre;
+        if(IDREG == -1)
+            nombre = "CHAPTER " + consultarInt("select capitulo from capitulos where id = " + IDCAP + ";", "capitulo") 
+                    + ", SEASSON " + consultarInt("select temporada from capitulos where id = " + IDCAP + ";", "temporada")
+                    + " FROM " + consultarString("select serie from capitulos where id = " + IDCAP + ";", "serie")
+                    + ": NEW RECORD ";
+        else nombre = "CHAPTER " + consultarInt("select capitulo from capitulos where id = " + IDCAP + ";", "capitulo") 
+                    + ", SEASSON " + consultarInt("select temporada from capitulos where id = " + IDCAP + ";", "temporada")
+                    + " FROM " + consultarString("select serie from capitulos where id = " + IDCAP + ";", "serie")
+                    + ": RECORD " + IDREG;
+        Name.setText(nombre);
         if(IDREG == -1) Button.setText("REGISTER");
         else{
             Button.setText("UPDATE");
