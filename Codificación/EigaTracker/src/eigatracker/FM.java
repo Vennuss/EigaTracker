@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,28 +15,47 @@ import java.util.logging.Logger;
  */
 public class FM {
     
+    public static String ROUTE = "";
+    
     public FM(final MainMenu mm){
-        File Options = new File("src\\Options\\Options.txt");
-        if(!Options.exists()) Write(Options, "[XAMPP PATH]\nC:\\xampp\n[START UP DELAY]\n1000", false);
-        else OptionsStructureFixer();
-        String[] ops = new String[2];
         try{
-            ops[0] = ReadLine(Options, 1);
-            ops[1] = ReadLine(Options, 3);
+            ROUTE = new File(FM.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getParent();
+            File Options = new File(ROUTE + "\\Options\\Options.txt");
+            File Parent = new File(ROUTE + "\\Options");
+            if(!Parent.exists()) Parent.mkdir();
+            if(!Options.exists())
+                Write(Options, "[XAMPP PATH]\nC:\\xampp\n[START UP DELAY]\n2000", false);
+            else OptionsStructureFixer();
+            String[] ops = new String[2];
+            try{
+                ops[0] = ReadLine(Options, 1);
+                ops[1] = ReadLine(Options, 3);
+            }
+            catch(Exception ex){
+                System.exit(1);
+            }
+            mm.StartUP(ops);
         }
-        catch(Exception ex){
-            System.exit(1);
+        catch(URISyntaxException ex){
+            Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
         }
-        mm.StartUP(ops);
     }
     
-    public FM(){}
+    public FM(){
+        try {
+            ROUTE = new File(FM.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getParent();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void Write(final File _f, final String _text, final boolean _append){
         try {
-            FileWriter fw = new FileWriter(_f, _append);
-            fw.write(_text);
-            fw.close();
+            try (FileWriter fw = new FileWriter(_f, _append)) {
+                fw.write(_text);
+            }
         } catch (IOException ex) {
             Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -44,10 +64,9 @@ public class FM {
     
     public void Write(final String _f, final String _text, final boolean _append){
         try {
-            File f = new File(_f);
-            FileWriter fw = new FileWriter(f, _append);
-            fw.write(_text);
-            fw.close();
+            try (FileWriter fw = new FileWriter(new File(_f), _append)) {
+                fw.write(_text);
+            }
         } catch (IOException ex) {
             Logger.getLogger(FM.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -128,7 +147,7 @@ public class FM {
     }
     
     private void OptionsStructureFixer(){
-        File ops = new File("src\\Options\\Options.txt");
+        File ops = new File(ROUTE + "\\Options\\Options.txt");
         if(false == SizeCheck(ops, 4)){
             try {
                 Scanner sc = new Scanner(ops);
