@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +22,7 @@ public class FM {
         try{
             ROUTE = new File(FM.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent();
+            JOptionPane.showMessageDialog(null, ROUTE);
             File Options = new File(ROUTE + "\\Options\\Options.txt");
             File Parent = new File(ROUTE + "\\Options");
             if(!Parent.exists()) Parent.mkdir();

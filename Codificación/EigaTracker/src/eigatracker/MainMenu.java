@@ -29,7 +29,7 @@ public class MainMenu extends javax.swing.JFrame {
     public MainMenu() {
         try{
             initComponents();
-            FM fm = new FM(this);
+            new FM(this);
         }
         catch(Exception ex){
             bd.stopXampp();
