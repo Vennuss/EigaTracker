@@ -22,7 +22,6 @@ public class FM {
         try{
             ROUTE = new File(FM.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent();
-            JOptionPane.showMessageDialog(null, ROUTE);
             File Options = new File(ROUTE + "\\Options\\Options.txt");
             File Parent = new File(ROUTE + "\\Options");
             if(!Parent.exists()) Parent.mkdir();
@@ -37,6 +36,7 @@ public class FM {
             catch(Exception ex){
                 System.exit(1);
             }
+            JOptionPane.showMessageDialog(null, ROUTE);
             mm.StartUP(ops);
         }
         catch(URISyntaxException ex){

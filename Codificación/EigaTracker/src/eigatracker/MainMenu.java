@@ -286,7 +286,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1160, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1164, Short.MAX_VALUE)
                         .addGap(12, 12, 12))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -381,6 +381,7 @@ public class MainMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        BMovies.setMinimumSize(new java.awt.Dimension(30, 200));
         BMovies.setRowHeight(40);
         jScrollPane3.setViewportView(BMovies);
 
@@ -408,6 +409,7 @@ public class MainMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        BSeries.setMinimumSize(new java.awt.Dimension(30, 200));
         BSeries.setRowHeight(40);
         jScrollPane4.setViewportView(BSeries);
 
@@ -421,10 +423,8 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -454,10 +454,11 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(137, 137, 137)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(53, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4))
+                        .addGap(91, 91, 91)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,7 +509,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1184, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -600,8 +601,7 @@ public class MainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addComponent(jTabbedPane1))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -931,7 +931,7 @@ public class MainMenu extends javax.swing.JFrame {
         tm.setRowCount(0);
         
         try {
-            String sql = "select nombre, vistas from (select pelicula_ref as 'nombre', count(*) as 'vistas' from registros_peliculas group by pelicula_ref) as deribada2 having vistas = (select max(vistas) from (select count(*) as 'vistas' from registros_peliculas group by pelicula_ref) as deribada);";
+            String sql = "select nombre, count(*) as vistas from peliculas, registros_peliculas where pelicula_ref = nombre group by pelicula_ref having vistas = (select max(vistas) from (select count(*) as vistas from registros_peliculas group by pelicula_ref) as deribada);";
             ResultSet rs = bd.consulta(sql);
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
@@ -952,10 +952,10 @@ public class MainMenu extends javax.swing.JFrame {
         tm.setRowCount(0);
         
         try {
-            String sql = "select serie as 'nombre', max(vistas) as 'vistas' from (select serie, count(*) as 'vistas' from capitulos,registros_capitulos where capitulos.id = capitulo_ref group by serie) as deribada1;";
+            String sql = "select serie, count(*) as 'vistas' from registros_capitulos, capitulos where capitulos.id = capitulo_ref group by serie having vistas = (select max(vistas) as 'vistas' from (select count(*) as 'vistas' from registros_capitulos, capitulos where capitulos.id = capitulo_ref group by serie)as deribada);";
             ResultSet rs = bd.consulta(sql);
             while (rs.next()) {
-                String nombre = rs.getString("nombre");
+                String nombre = rs.getString("serie");
                 int vistas = rs.getInt("vistas");        
                 Object nuev[] = {nombre, vistas};
                 tm.addRow(nuev);
