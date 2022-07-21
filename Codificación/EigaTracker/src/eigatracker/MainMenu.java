@@ -82,6 +82,12 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         BSeries = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        FMovies = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        FSeries = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         MFile = new javax.swing.JMenu();
         ImportXML = new javax.swing.JMenuItem();
@@ -286,7 +292,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1164, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE)
                         .addGap(12, 12, 12))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -416,6 +422,68 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel6.setText("Most Watched Series");
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel8.setText("Most Fun Movies");
+
+        FMovies.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        FMovies.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Movie", "Fun"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        FMovies.setMinimumSize(new java.awt.Dimension(30, 200));
+        FMovies.setRowHeight(40);
+        jScrollPane5.setViewportView(FMovies);
+
+        FSeries.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        FSeries.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Series", "Fun"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        FSeries.setMinimumSize(new java.awt.Dimension(30, 200));
+        FSeries.setRowHeight(40);
+        jScrollPane6.setViewportView(FSeries);
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel10.setText("Most Fun Series");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -428,36 +496,47 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(MCPelicula))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MCPelicula))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MCSerie))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MDPelicula))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MDSerie))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MVPelicula))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MVSerie)))
+                                .addGap(137, 137, 137)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane4))
+                                .addGap(97, 97, 97))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(MCSerie))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(MDPelicula))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(18, 18, 18)
-                                .addComponent(MDSerie))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(18, 18, 18)
-                                .addComponent(MVPelicula))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(MVSerie)))
-                        .addGap(137, 137, 137)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4))
-                        .addGap(91, 91, 91)))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jScrollPane6))
+                                .addGap(95, 95, 95)))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -500,7 +579,17 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel4);
@@ -509,7 +598,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1194, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -711,6 +800,8 @@ public class MainMenu extends javax.swing.JFrame {
         MVSerie.setText(Double.toString(consultarDouble("select avg(visualizaciones) as 'visualizaciones' from (select count(*) as 'visualizaciones' from registros_capitulos, capitulos where registros_capitulos.capitulo_ref = capitulos.id group by serie) as deribada;","visualizaciones")));
         mostrarBM();
         mostrarBS();
+        mostrarFM();
+        mostrarFS();
         
     }//GEN-LAST:event_jPanel2ComponentShown
 
@@ -810,6 +901,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem Exit;
     private javax.swing.JMenuItem ExportSQL;
     private javax.swing.JMenuItem ExportXML;
+    private javax.swing.JTable FMovies;
+    private javax.swing.JTable FSeries;
     private javax.swing.JMenuItem ImportSQL;
     private javax.swing.JMenuItem ImportXML;
     private javax.swing.JLabel MCPelicula;
@@ -826,6 +919,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.ButtonGroup SearchGroup;
     private javax.swing.JRadioButton SeriesRb;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -834,6 +928,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
@@ -846,6 +941,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
     
@@ -945,6 +1042,27 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
     
+    private void mostrarFM(){
+        DefaultTableModel tm = (DefaultTableModel) FMovies.getModel();
+        FMovies.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        tm.setRowCount(0);
+        
+        try {
+            String sql = "select pelicula_ref, sum(diversion) as fun from registros_peliculas group by pelicula_ref having fun = (select max(fun) from (select sum(diversion) as fun from registros_peliculas group by pelicula_ref) as deribada);";
+            ResultSet rs = bd.consulta(sql);
+            while (rs.next()) {
+                String nombre = rs.getString("pelicula_ref");
+                int fun = rs.getInt("fun");
+                Object nuev[] = {nombre, fun};
+                tm.addRow(nuev);
+            }
+            bd.cerrarConexion();
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage() + "\n" + ex.getCause());
+        }
+    }
+    
     private void mostrarBS(){
         DefaultTableModel tm = (DefaultTableModel) BSeries.getModel();
         BSeries.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -958,6 +1076,27 @@ public class MainMenu extends javax.swing.JFrame {
                 String nombre = rs.getString("serie");
                 int vistas = rs.getInt("vistas");        
                 Object nuev[] = {nombre, vistas};
+                tm.addRow(nuev);
+            }
+            bd.cerrarConexion();
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage() + "\n" + ex.getCause());
+        }
+    }
+    
+    private void mostrarFS(){
+        DefaultTableModel tm = (DefaultTableModel) FSeries.getModel();
+        FSeries.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        tm.setRowCount(0);
+        
+        try {
+            String sql = "select serie, sum(diversion) as fun from registros_capitulos, capitulos where capitulos.id = capitulo_ref group by serie having fun = (select max(fun) from (select sum(diversion) as fun from registros_capitulos, capitulos where capitulos.id = capitulo_ref group by serie)as deribada);";
+            ResultSet rs = bd.consulta(sql);
+            while (rs.next()) {
+                String nombre = rs.getString("serie");
+                int fun = rs.getInt("fun");        
+                Object nuev[] = {nombre, fun};
                 tm.addRow(nuev);
             }
             bd.cerrarConexion();
